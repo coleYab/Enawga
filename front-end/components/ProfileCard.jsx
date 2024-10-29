@@ -7,7 +7,7 @@ import { IoReload } from 'react-icons/io5';
 const ProfileCard = ({ user, theme, changeTheme }) => {
   return (
     <div className="flex-between py-4 px-3 bg-[var(--box-color-2)] rounded-lg">
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 max-w-[500px]">
         <div>
           <Image
             src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/filip.jpg"
@@ -33,13 +33,13 @@ const ProfileCard = ({ user, theme, changeTheme }) => {
 
         {user.session && (
           <div>
-            {theme === 'light' ? (
+            {theme === 'dark' ? (
               <i onClick={changeTheme}>
-                <MdNightsStay size={25} />
+                <IoIosSunny size={25} />
               </i>
             ) : (
               <i onClick={changeTheme}>
-                <IoIosSunny size={25} />
+                <MdNightsStay size={25} />
               </i>
             )}
           </div>
