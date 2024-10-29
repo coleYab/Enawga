@@ -4,7 +4,17 @@
 
 @layer base {
   :root {
-    --background-color: #3498db;
+    --box-color: #444;
+    --box-color-2: #555;
+    --box-color-3: #585858;
+    --bubble-color: #30ade7;
+    --bubble-color-2: #555;
+    --text-color: #ffffff;
+    --text-color-muted: #cfcfcf;
+    --hover-color: #646464;
+  }
+
+  .light {
     --box-color: #fff;
     --box-color-2: #eee;
     --box-color-3: #fafafa;
@@ -15,21 +25,10 @@
     --hover-color: #74b9ff;
   }
 
-  .dark {
-    --background-color: #333;
-    --box-color: #444;
-    --box-color-2: #555;
-    --box-color-3: #585858;
-    --bubble-color-2: #555;
-    --text-color: #ffffff;
-    --text-color-muted: #cfcfcf;
-    --hover-color: #646464;
-  }
-
   *,
   *::before,
   *::after {
-    @apply font-sans text-base text-[var(--text-color)] transition-all duration-300;
+    @apply p-0 m-0 font-sans text-base text-[var(--text-color)] transition-all duration-300;
   }
   i {
     @apply text-2xl text-[var(--text-color)] hover:text-[var(--hover-color)] hover:cursor-pointer;
@@ -87,14 +86,10 @@
   }
 }
 
-.container {
-  @apply max-w-[1210px] min-h-[500px] bg-[var(--box-color)] rounded-lg flex;
-}
-
 .left-side {
-  @apply w-[35%] flex flex-col border-r-2 border-[var(--box-color-2)];
+  @apply lg:w-[35%] flex flex-col w-full h-full border-r-2 border-[var(--box-color-2)];
 }
 
 .right-side {
-  @apply w-[65%] flex flex-col relative;
+  @apply lg:w-[65%] w-full h-full flex flex-col gap-5 relative;
 }
