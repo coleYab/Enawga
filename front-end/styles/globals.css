@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    --background-color: #333;
     --box-color: #444;
     --box-color-2: #555;
     --box-color-3: #585858;
@@ -15,7 +16,8 @@
   }
 
   .light {
-    --box-color: #fff;
+    --background-color: #3498db;
+    --box-color: #ffffff;
     --box-color-2: #eee;
     --box-color-3: #fafafa;
     --bubble-color: #30ade7;
@@ -51,7 +53,20 @@
   }
 
   .profile-image {
-    @apply rounded-full object-cover select-none;
+    @apply h-auto w-auto rounded-full object-cover select-none;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #88888870;
+    border-radius: 4px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background-color: #555;
   }
 }
 
@@ -91,5 +106,5 @@
 }
 
 .right-side {
-  @apply lg:w-[65%] w-full h-full flex flex-col gap-5 relative;
+  @apply lg:w-[65%] w-full h-full flex flex-col;
 }
