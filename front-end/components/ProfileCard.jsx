@@ -13,7 +13,7 @@ const ProfileCard = ({
   handleNotification,
 }) => {
   return (
-    <div className="flex-between py-4 px-3 bg-[var(--box-color-2)] rounded-lg">
+    <div className="flex-between py-4 px-3 bg-[var(--box-color-2)]">
       <div className="flex items-center gap-3 max-w-[500px]">
         <div className="lg:hidden">
           {!user.session && (
