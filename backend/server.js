@@ -21,7 +21,7 @@ dotenv.config();
 
 // Middleware to log every request with status code and duration
 app.use(logServerRequests);
-app.use(express.json()); // parse incoming requests with JSON payloads(req.body or data)
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); // parse cookies attached to the client request
 app.use(cors());
