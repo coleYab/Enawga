@@ -53,7 +53,7 @@
   }
 
   .profile-image {
-    @apply h-auto w-auto rounded-full object-cover select-none;
+    @apply h-auto w-auto rounded-full object-cover aspect-square select-none;
   }
 
   *::-webkit-scrollbar {
