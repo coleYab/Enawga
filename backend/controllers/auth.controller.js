@@ -76,7 +76,14 @@ export const googleLogin = async (req, res) => {
     const tokenExpiration = rememberMe ? '7d' : '1h';
     generateTokenAndSetCookie(user._id, res, tokenExpiration);
 
-    // Development redirect
+    // res.status(200).json({
+    //   _id: user._id,
+    //   fullName: user.fullName,
+    //   username: user.username,
+    //   email: user.email,
+    //   profilePic: user.profilePic,
+    //   bio: user.bio,
+    // });
     res.redirect('http://localhost:5173/');
   } catch (error) {
     console.error('Error in google login controller:', error.message);
