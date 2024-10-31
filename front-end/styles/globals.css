@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background-color: #333;
+    --box-color: #444;
+    --box-color-2: #555;
+    --box-color-3: #585858;
+    --bubble-color: #30ade7;
+    --bubble-color-2: #555;
+    --text-color: #ffffff;
+    --text-color-muted: #cfcfcf;
+    --hover-color: #646464;
+  }
+
+  .light {
+    --background-color: #3498db;
+    --box-color: #ffffff;
+    --box-color-2: #eee;
+    --box-color-3: #fafafa;
+    --bubble-color: #30ade7;
+    --bubble-color-2: #dddddd;
+    --text-color: #333;
+    --text-color-muted: #7e7e7e;
+    --hover-color: #74b9ff;
+  }
+
+  *,
+  *::before,
+  *::after {
+    @apply p-0 m-0 font-sans text-base text-[var(--text-color)] transition-all duration-300;
+  }
+  i {
+    @apply text-2xl text-[var(--text-color)] hover:text-[var(--hover-color)] hover:cursor-pointer;
+  }
+
+  hr {
+    @apply w-[90%] my-1 mx-auto text-[var(--text-color-muted)];
+  }
+
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+
+  .flex-column {
+    @apply flex flex-col;
+  }
+
+  .profile-image {
+    @apply h-auto w-auto rounded-full object-cover aspect-square select-none;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #88888870;
+    border-radius: 4px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background-color: #555;
+  }
+}
+
+@layer components {
+  .friend-drawer {
+    @apply bg-[var(--box-color)] flex justify-between align-baseline py-3 px-4;
+  }
+
+  .friend-drawer--hover {
+    @apply hover:bg-[var(--hover-color)] hover:cursor-pointer;
+  }
+
+  .friend-drawer--hover:hover p,
+  .friend-drawer--hover:hover h2,
+  .friend-drawer--hover:hover div {
+    @apply text-white !important;
+  }
+
+  .chat-bubble {
+    @apply max-w-[256px] rounded-lg px-4 py-2 relative;
+    @apply after:content-[''] after:absolute after:top-1/2 after:h-0 after:w-0 after:border-[20px] after:border-transparent after:border-solid after:border-b-0 -mt-[10px];
+  }
+
+  .bubble-left {
+    @apply bg-[var(--bubble-color-2)] text-[var(--text-color)];
+    @apply after:left-0 after:border-r-[var(--bubble-color-2)] after:border-l-0 after:-ml-2;
+  }
+
+  .bubble-right {
+    @apply bg-[var(--bubble-color)] text-white;
+    @apply after:right-0 after:border-l-[var(--bubble-color)] after:border-r-0 after:-mr-2;
+  }
+}
+
+.left-side {
+  @apply lg:w-[35%] flex flex-col w-full h-full border-r-2 border-[var(--box-color-2)];
+}
+
+.right-side {
+  @apply lg:w-[65%] w-full h-full flex flex-col;
+}
+
+.login-input-card {
+  @apply grow px-3 py-1 text-[var(--text-color)] bg-[var(--box-color-2)] focus:outline-0 transition-none;
+  @apply placeholder:text-[var(--text-color)];
+}
