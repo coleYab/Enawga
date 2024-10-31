@@ -1,12 +1,12 @@
-'use client';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-import { FcGoogle } from 'react-icons/fc';
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ const Login = () => {
   const handleLogin = async () => {
     // Input validation
     if (!username || !password) {
-      setError('Username and password are required.');
+      setError("Username and password are required.");
       return;
     }
 
@@ -27,19 +27,19 @@ const Login = () => {
       const response = await fetch(
         `http://localhost:5000/api/auth/login?rememberMe=${rememberMe}`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ username, password }),
         },
       );
 
       if (!response.ok) {
-        throw new Error('Login failed. Please check your credentials.');
+        throw new Error("Login failed. Please check your credentials.");
       }
 
-      router.push('/');
+      router.push("/");
     } catch (error) {
       console;
       setError(error.message);
@@ -50,7 +50,7 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      window.location.href = 'http://localhost:5000/api/auth/google';
+      window.location.href = "http://localhost:5000/api/auth/google";
     } catch (error) {
       setError(error);
     }
@@ -103,24 +103,23 @@ const Login = () => {
           />
         </label>
 
-        {/* Remember Me Checkbox */}
-        <div className="flex items-center gap-4 w-48 h-auto">
-          {/* <label className="label cursor-pointer"> */}
-          <span className="label-text">Remember me</span>
-          <input
-            type="checkbox"
-            checked={rememberMe}
-            className="checkbox checkbox-primary"
-            onChange={(e) => setRememberMe(e.target.checked)}
-          />
-          {/* </label> */}
-        </div>
+        <div className="flex-column w-full h-auto px-2">
+          <div className="flex items-center gap-4 w-48 h-auto">
+            <span className="label-text">Remember me</span>
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              className="checkbox checkbox-primary"
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
+          </div>
 
-        <div className="text-xs font-light self-start ml-10 -mt-3">
-          Dont have an account?{' '}
-          <a className="underline text-xs" href="/signup">
-            Sign up
-          </a>
+          <div className="text-xs font-light self-start mt-1">
+            Dont have an account?{" "}
+            <a className="underline text-xs" href="/signup">
+              Sign up
+            </a>
+          </div>
         </div>
 
         <div className="w-full h-auto relative">
@@ -149,7 +148,7 @@ const Login = () => {
           onClick={handleLogin}
           disabled={loading}
         >
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ? "Logging in..." : "Login"}
         </button>
       </div>
     </div>
