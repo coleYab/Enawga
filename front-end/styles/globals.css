@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background-color: #333;
+    --background-color: linear-gradient(135deg, #121212 0%, #303030 100%);
     --box-color: #444;
     --box-color-2: #555;
     --box-color-3: #585858;
@@ -16,7 +16,7 @@
   }
 
   .light {
-    --background-color: #3498db;
+    --background-color: linear-gradient(135deg, #121212 0%, #303030 100%);
     --box-color: #ffffff;
     --box-color-2: #eee;
     --box-color-3: #fafafa;
@@ -54,6 +54,10 @@
 
   .profile-image {
     @apply h-auto w-auto rounded-full object-cover aspect-square select-none;
+  }
+
+  .root-page {
+    background: var(--background-color);
   }
 
   *::-webkit-scrollbar {

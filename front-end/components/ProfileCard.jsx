@@ -11,12 +11,13 @@ const ProfileCard = ({
   changeTheme,
   changeBack,
   handleNotification,
+  currentUser,
 }) => {
   return (
     <div className="flex-between py-4 px-3 bg-[var(--box-color-2)]">
       <div className="flex items-center gap-3 max-w-[500px]">
         <div className="lg:hidden">
-          {!user.session && (
+          {!currentUser && (
             <i>
               <IoArrowBack size={25} onClick={changeBack} />
             </i>
@@ -29,10 +30,10 @@ const ProfileCard = ({
             width={50}
             height={50}
             className={`profile-image ${
-              user.session ? "peer hover:cursor-pointer" : ""
+              currentUser ? "peer hover:cursor-pointer" : ""
             }`}
             onClick={() => {
-              if (user.session) {
+              if (currentUser) {
                 document
                   .getElementById("sidebar")
                   .classList.replace("-left-[100%]", "left-0");
@@ -41,7 +42,7 @@ const ProfileCard = ({
           />
         </div>
 
-        {!user.session && (
+        {!currentUser && (
           <div className="flex-col">
             <h2 className="font-semibold text-sm lg:text-lg">{user.name}</h2>
             <p className="text-[var(--text-color-muted)] leading-5">
@@ -52,14 +53,14 @@ const ProfileCard = ({
       </div>
 
       <div className="flex-between w-20">
-        {user.session && (
+        {currentUser && (
           <i className="relative" onClick={handleNotification}>
             <IoIosNotificationsOutline size={25} />
             <div className="bg-[var(--bubble-color)] w-2 h-2 rounded-full absolute top-[3px] right-[5px]"></div>
           </i>
         )}
 
-        {user.session && (
+        {currentUser && (
           <div>
             {theme === "dark" ? (
               <i onClick={changeTheme}>

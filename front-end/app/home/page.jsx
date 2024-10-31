@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import FriendList from "@containers/FriendList";
 import ChatBox from "@containers/ChatBox";
@@ -33,6 +34,26 @@ const HomePage = () => {
   const [theme, setTheme] = useState("dark");
   const [isBack, setIsBack] = useState(true);
   const [openNoti, setOpenNoti] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      const response = await fetch("http://localhost:3000/api/auth/verify", {
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        router.push("/login");
+      }
+
+      const data = await response.json();
+      setCurrentUser(data.user);
+    };
+
+    fetchCurrentUser();
+  }, []);
 
   const changeTheme = () => {
     document.body.classList.toggle("light");
@@ -49,7 +70,7 @@ const HomePage = () => {
 
   return (
     <div className="w-screen h-screen bg-[var(--box-color)] flex justify-center">
-      <SideBar user={mockUser} />
+      <SideBar user={currentUser} />
       <ProfileContainer user={mockUser} />
 
       {openNoti && (
@@ -64,6 +85,7 @@ const HomePage = () => {
           theme={theme}
           changeTheme={changeTheme}
           handleNotification={handleNotification}
+          currentUser={currentUser}
         />
         <ChatBox />
       </div>

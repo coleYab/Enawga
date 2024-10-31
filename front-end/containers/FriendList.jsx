@@ -13,7 +13,12 @@ const mockUser = {
   session: true,
 };
 
-const FriendList = ({ theme, changeTheme, handleNotification }) => {
+const FriendList = ({
+  theme,
+  changeTheme,
+  handleNotification,
+  currentUser,
+}) => {
   return (
     <div className="left-side">
       <div>
@@ -22,6 +27,7 @@ const FriendList = ({ theme, changeTheme, handleNotification }) => {
           theme={theme}
           changeTheme={changeTheme}
           handleNotification={handleNotification}
+          currentUser={currentUser}
         />
       </div>
 
