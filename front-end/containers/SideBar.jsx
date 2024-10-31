@@ -1,64 +1,64 @@
-'use client';
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+"use client";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-import { IoArrowBack } from 'react-icons/io5';
-import { GiExitDoor } from 'react-icons/gi';
+import { IoArrowBack } from "react-icons/io5";
+import { GiExitDoor } from "react-icons/gi";
 
 const SideBar = ({ user }) => {
   const [bio, setBio] = useState(user.bio);
-  const [debounceBio, setDebounceBio] = useState('');
+  const [debounceBio, setDebounceBio] = useState("");
   const router = useRouter();
 
-  useEffect(() => {
-    const timerId = setTimeout(() => {
-      setDebounceBio(bio);
-    }, 300);
-    return () => clearTimeout(timerId);
-  }, [bio]);
+  // useEffect(() => {
+  //   const timerId = setTimeout(() => {
+  //     setDebounceBio(bio);
+  //   }, 300);
+  //   return () => clearTimeout(timerId);
+  // }, [bio]);
 
-  // Updates user bio on a given interval.
-  useEffect(() => {
-    const updateBio = async () => {
-      // if (debounceBio.trim() === '') {
-      //   setDebounceBio([]);
-      //   return;
-      // }
+  // // Updates user bio on a given interval.
+  // useEffect(() => {
+  //   const updateBio = async () => {
+  //     // if (debounceBio.trim() === '') {
+  //     //   setDebounceBio([]);
+  //     //   return;
+  //     // }
 
-      try {
-        const response = await fetch('http://localhost:5000/api/users', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ bio }),
-        });
+  //     try {
+  //       const response = await fetch('http://localhost:5000/api/users', {
+  //         method: 'PUT',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify({ bio }),
+  //       });
 
-        const data = await response.json();
+  //       const data = await response.json();
 
-        if (response.ok && data) {
-          console.log(data);
-        }
-      } catch (error) {
-        console.error('Error updating bio:', error);
-      }
-    };
+  //       if (response.ok && data) {
+  //         console.log(data);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error updating bio:', error);
+  //     }
+  //   };
 
-    updateBio();
-  }, [debounceBio]);
+  //   updateBio();
+  // }, [debounceBio]);
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/logout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:5000/api/auth/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
       });
       if (!response.ok) {
-        console.log('Logout Failed!');
+        console.log("Logout Failed!");
         return;
       }
-      router.push('/');
+      router.push("/");
     } catch (error) {
       console.log(error);
     }
@@ -73,8 +73,8 @@ const SideBar = ({ user }) => {
         <i
           onClick={() => {
             document
-              .getElementById('sidebar')
-              .classList.replace('left-0', '-left-[100%]');
+              .getElementById("sidebar")
+              .classList.replace("left-0", "-left-[100%]");
           }}
         >
           <IoArrowBack size={25} />
