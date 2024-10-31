@@ -6,14 +6,8 @@ import ProfileCard from "@components/ProfileCard";
 import InputCard from "@components/InputCard";
 import FriendCard from "@components/FriendCard";
 
-const mockUser = {
-  name: "Filip",
-  bio: "I am a software engineer",
-  time: "2:00 PM",
-  session: true,
-};
-
 const FriendList = ({
+  users,
   theme,
   changeTheme,
   handleNotification,
@@ -23,7 +17,7 @@ const FriendList = ({
     <div className="left-side">
       <div>
         <ProfileCard
-          user={mockUser}
+          user={users[0]}
           theme={theme}
           changeTheme={changeTheme}
           handleNotification={handleNotification}
@@ -44,20 +38,29 @@ const FriendList = ({
       </div>
 
       <div className="h-full overflow-y-auto">
-        <div
+        {users.map((user, index) => (
+          <div
+            key={index}
+            onClick={() => {
+              document
+                .getElementById("profile_container")
+                .classList.replace("hidden", "fixed");
+            }}
+          >
+            <FriendCard user={user} />
+            <hr />
+          </div>
+        ))}
+        {/* <div
           onClick={() => {
             document
               .getElementById("profile_container")
               .classList.replace("hidden", "fixed");
           }}
         >
-          <FriendCard user={mockUser} />
+          <FriendCard user={user} />
           <hr />
-        </div>
-        <div>
-          <FriendCard user={mockUser} />
-          <hr />
-        </div>
+        </div> */}
       </div>
     </div>
   );
