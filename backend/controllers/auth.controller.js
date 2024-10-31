@@ -84,7 +84,7 @@ export const googleLogin = async (req, res) => {
     //   profilePic: user.profilePic,
     //   bio: user.bio,
     // });
-    res.redirect('http://localhost:5173/');
+    res.redirect('http://localhost:3000/');
   } catch (error) {
     console.error('Error in google login controller:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
