@@ -18,13 +18,17 @@ const PORT = process.env.PORT || 5000;
 const GOOGLE_SECRET = process.env.GOOGLE_SECRET;
 
 dotenv.config();
+const corsOptions = {
+  origin: 'http://localhost:3000', // Allow requests only from this origin
+  credentials: true, // Enable cookies to be included in requests
+};
 
 // Middleware to log every request with status code and duration
 app.use(logServerRequests);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); // parse cookies attached to the client request
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use(
   session({
