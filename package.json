@@ -7,12 +7,12 @@
     "server": "nodemon backend/server.js",
     "test": "jest"
   },
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/coleYab/Enawga.git"
   },
   "keywords": [],
+  "type": "module",
   "author": "",
   "license": "ISC",
   "bugs": {
