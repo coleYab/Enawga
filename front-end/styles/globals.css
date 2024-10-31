@@ -108,3 +108,8 @@
 .right-side {
   @apply lg:w-[65%] w-full h-full flex flex-col;
 }
+
+.login-input-card {
+  @apply grow px-3 py-1 text-[var(--text-color)] bg-[var(--box-color-2)] focus:outline-0 transition-none;
+  @apply placeholder:text-[var(--text-color)];
+}
