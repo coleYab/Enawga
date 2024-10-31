@@ -86,7 +86,7 @@
   }
 
   .chat-bubble {
-    @apply max-w-[256px] rounded-lg px-4 py-2 relative;
+    @apply max-w-[256px] rounded-lg px-4 py-2 flex-column relative;
     @apply after:content-[''] after:absolute after:top-1/2 after:h-0 after:w-0 after:border-[20px] after:border-transparent after:border-solid after:border-b-0 -mt-[10px];
   }
 
