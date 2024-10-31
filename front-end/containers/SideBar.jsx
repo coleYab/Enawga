@@ -1,10 +1,13 @@
-import { User } from "lucide-react";
+"use client";
+import { useState } from "react";
 import Image from "next/image";
 
 import { IoArrowBack } from "react-icons/io5";
 import { GiExitDoor } from "react-icons/gi";
 
 const SideBar = ({ user }) => {
+  const [bio, setBio] = useState(user.bio);
+
   return (
     <div
       id="sidebar"
@@ -42,8 +45,8 @@ const SideBar = ({ user }) => {
           <textarea
             cols="30"
             rows="10"
-            value={user.bio}
-            onChange={(e) => setUser({ ...user, bio: e.target.value })}
+            value={bio}
+            onChange={(e) => setBio((prev) => e.target.value)}
             className="w-full max-h-[300px] px-5 py-3 border-0 rounded-[30px] text-wrap text-[var(--text-color)] bg-[var(--box-color-2)] focus:outline-none transition-colors"
           ></textarea>
         </div>
