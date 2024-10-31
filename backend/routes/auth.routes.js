@@ -3,6 +3,7 @@ import {
   login,
   signUp,
   logout,
+  verifyToken,
   googleLogin,
 } from '../controllers/auth.controller.js';
 import passport from '../middleware/passportMiddleware.js';
@@ -27,7 +28,7 @@ router.get(
 );
 
 router.post('/signup', signUp);
-
 router.post('/logout', logout);
+router.get('/verify', verifyToken);
 
 export default router;
