@@ -56,6 +56,7 @@ const Signup = () => {
           password: info.password,
           confirmPassword: info.confirmPassword,
         }),
+        credentials: 'include',
       });
       if (!response.ok) {
         setIsLoading(false);
