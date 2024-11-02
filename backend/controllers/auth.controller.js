@@ -126,6 +126,7 @@ export const logout = async (req, res) => {
   try {
     res.cookie('jwt', '', {
       maxAge: 0,
+      sameSite: 'strict',
       httpOnly: true,
     });
     res.status(200).json({ message: 'Logged out successfully' });
@@ -137,8 +138,8 @@ export const logout = async (req, res) => {
 
 export const verifyToken = async (req, res) => {
   try {
-    const token = req.cookies.jwt;
-
+    const token = req.cookies['jwt'];
+    console.log('verifyToken:', token);
     if (!token) {
       return res.status(401).json({ error: 'No token provided' });
     }
