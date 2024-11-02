@@ -21,6 +21,7 @@ dotenv.config();
 const corsOptions = {
   origin: 'http://localhost:3000', // Allow requests only from this origin
   credentials: true, // Enable cookies to be included in requests
+  exposedHeaders: ['set-cookie'],
 };
 
 // Middleware to log every request with status code and duration
