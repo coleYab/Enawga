@@ -28,7 +28,7 @@ router.get(
 );
 
 router.post('/signup', signUp);
-router.post('/logout', logout);
+router.delete('/logout', logout);
 router.get('/verify', verifyToken);
 
 export default router;
