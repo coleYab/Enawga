@@ -2,6 +2,7 @@ import User from '../models/user.model.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import generateTokenAndSetCookie from '../utils/generateToken.js';
+import { v4 as uuid4 } from 'uuid'; 
 
 export const signUp = async (req, res) => {
   try {
@@ -69,9 +70,19 @@ export const googleLogin = async (req, res) => {
         .json({ error: 'No email found in Google profile' });
     }
 
-    const user = await User.findOne({ email });
+    // create the user pr 
+    let user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: "User doesn't exist" });
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(uuid4(), salt);
+      user = await User.create({
+        fullName: req.user?.displayName,
+        username: req.user?.id,
+        email,
+        password: hashedPassword,
+        profilePic: req.user._json?.picture,
+        bio: '',
+      });
     }
 
     const tokenExpiration = rememberMe ? '7d' : '1h';
