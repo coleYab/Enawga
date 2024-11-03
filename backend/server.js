@@ -12,8 +12,9 @@ import searchRoutes from './routes/search.routes.js';
 import connectToMongoDB from './db/connectToMongoDB.js';
 import logServerRequests from './middleware/logServerRequests.js';
 import passport from './middleware/passportMiddleware.js';
+import { server, app } from './utils/socket.js'
 
-const app = express();
+// const app = express();
 const PORT = process.env.PORT || 5000;
 const GOOGLE_SECRET = process.env.GOOGLE_SECRET;
 
@@ -49,7 +50,7 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/search', searchRoutes);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   connectToMongoDB();
   console.log(`The server is running on port ${PORT}`);
 });
