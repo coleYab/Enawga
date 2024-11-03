@@ -1,14 +1,14 @@
-"use client";
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+'use client';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
-import { IoArrowBack } from "react-icons/io5";
-import { GiExitDoor } from "react-icons/gi";
+import { IoArrowBack } from 'react-icons/io5';
+import { GiExitDoor } from 'react-icons/gi';
 
 const SideBar = ({ user }) => {
   const [bio, setBio] = useState(user.bio);
-  const [debounceBio, setDebounceBio] = useState("");
+  const [debounceBio, setDebounceBio] = useState('');
   const router = useRouter();
 
   // useEffect(() => {
@@ -50,15 +50,15 @@ const SideBar = ({ user }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/logout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('http://localhost:5000/api/auth/logout', {
+        method: 'DELETE',
+        credentials: 'include',
       });
       if (!response.ok) {
-        console.log("Logout Failed!");
+        console.log('Logout Failed!');
         return;
       }
-      router.push("/");
+      router.push('/');
     } catch (error) {
       console.log(error);
     }
@@ -73,8 +73,8 @@ const SideBar = ({ user }) => {
         <i
           onClick={() => {
             document
-              .getElementById("sidebar")
-              .classList.replace("left-0", "-left-[100%]");
+              .getElementById('sidebar')
+              .classList.replace('left-0', '-left-[100%]');
           }}
         >
           <IoArrowBack size={25} />
