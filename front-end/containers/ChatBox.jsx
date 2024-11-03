@@ -1,10 +1,13 @@
 "use client";
-import { useEffect, useRef } from "react";
+
+import { useState, useEffect, useRef } from "react";
 import { MdSend } from "react-icons/md";
 
 import ProfileCard from "@components/ProfileCard";
 import ChatBubble from "@components/ChatBubble";
 import InputCard from "@components/InputCard";
+
+import { initializeSocket, disconnectSocket } from '../utils/socket.js';
 
 const mockUser2 = {
   name: "Filip",
@@ -14,6 +17,31 @@ const mockUser2 = {
 
 const ChatBox = ({ changeBack }) => {
   const chatContainerRef = useRef(null);
+  const [messages, setMessages] = useState([]);
+  const socket = useRef(initializeSocket());
+
+  // make a request and when a request is we can change the user
+  const sendMessage = () => {
+    const message =  "Sending the message from Input Card";
+    socket.current.emit('sendMessage', message);
+    setMessages(messages => [...messages, { message, session: true }]);
+  };
+
+  useEffect(() => {
+    const currentSocket = socket.current;
+
+    currentSocket.on('connect', () => {
+      console.log('Connected to socket server');
+    });
+
+    currentSocket.on('recieveMessage', (message) => {
+      setMessages((prevMessages) => [...prevMessages, { message, session: false }]);
+    });
+
+    return () => {
+      disconnectSocket();
+    };
+  }, []);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -30,28 +58,16 @@ const ChatBox = ({ changeBack }) => {
 
       <div className="flex-column overflow-y-scroll">
         <div className="px-4 py-6 flex-column gap-5" ref={chatContainerRef}>
-          <ChatBubble message="Hello" session={true} />
-          <ChatBubble message="Hello" session={false} />
-          <ChatBubble message="Hello" session={true} />
-          <ChatBubble message="Hello" session={false} />
-          <ChatBubble message="Hello" session={true} />
-          <ChatBubble message="Hello" session={false} />
-          <ChatBubble message="Hello" session={false} />
-          <ChatBubble message="Hello" session={false} />
-          <ChatBubble message="Hello" session={false} />
-          <ChatBubble message="Hello" session={false} />
-          <ChatBubble message="Hello" session={false} />
-          <ChatBubble message="Hello" session={false} />
-          <ChatBubble message="Hello" session={false} />
-          <ChatBubble message="Hello" session={true} />
-          <ChatBubble message="Hello" session={true} />
-          <ChatBubble message="Hello" session={true} />
-          <ChatBubble message="Hello" session={true} />
+          {messages.map((msg, index) => (
+            <ChatBubble key={index} message={msg.message} session={msg.session} />
+          ))}
         </div>
       </div>
       <div className="px-[16px] py-[16px] bg-[var(--box-color-2)] flex-between">
-        <InputCard placeHolder="Text Message" />
-        <i>
+        <InputCard
+          placeHolder="Text Message"
+        />
+        <i onClick={sendMessage}>
           <MdSend size={25} />
         </i>
       </div>
