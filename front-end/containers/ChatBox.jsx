@@ -26,9 +26,9 @@ const ChatBox = ({ changeBack }) => {
     console.log(textValue);
   };
 
-  // make a request and when a request is we can change the user
+  // make a request and when a the button is clicked
   const sendMessage = () => {
-    const message = 'Sending the message from Input Card';
+    const message = textValue;
     socket.current.emit('sendMessage', message);
     setMessages((messages) => [...messages, { message, session: true }]);
     setTextValue('');
