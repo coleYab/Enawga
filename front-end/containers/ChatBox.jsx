@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { MdSend } from 'react-icons/md';
+import { useState, useEffect, useRef } from "react";
+import { MdSend } from "react-icons/md";
 
-import ProfileCard from '@components/ProfileCard';
-import ChatBubble from '@components/ChatBubble';
-import InputCard from '@components/InputCard';
+import ProfileCard from "@components/ProfileCard";
+import ChatBubble from "@components/ChatBubble";
+import InputCard from "@components/InputCard";
 
-import { initializeSocket, disconnectSocket } from '../utils/socket.js';
+import { initializeSocket, disconnectSocket } from "../utils/socket.js";
 
 const mockUser2 = {
-  name: 'Filip',
-  bio: 'I am a software engineer',
+  name: "Filip",
+  bio: "I am a software engineer",
   session: false,
 };
 
 const ChatBox = ({ changeBack }) => {
   const chatContainerRef = useRef(null);
   const [messages, setMessages] = useState([]);
-  const [textValue, setTextValue] = useState('');
+  const [textValue, setTextValue] = useState("");
   const socket = useRef(initializeSocket());
 
   const handleChange = (e) => {
@@ -29,19 +29,19 @@ const ChatBox = ({ changeBack }) => {
   // make a request and when a the button is clicked
   const sendMessage = () => {
     const message = textValue;
-    socket.current.emit('sendMessage', message);
+    socket.current.emit("sendMessage", message);
     setMessages((messages) => [...messages, { message, session: true }]);
-    setTextValue('');
+    setTextValue("");
   };
 
   useEffect(() => {
     const currentSocket = socket.current;
 
-    currentSocket.on('connect', () => {
-      console.log('Connected to socket server');
+    currentSocket.on("connect", () => {
+      console.log("Connected to socket server");
     });
 
-    currentSocket.on('recieveMessage', (message) => {
+    currentSocket.on("recieveMessage", (message) => {
       setMessages((prevMessages) => [
         ...prevMessages,
         { message, session: false },
@@ -66,7 +66,7 @@ const ChatBox = ({ changeBack }) => {
         <ProfileCard user={mockUser2} changeBack={changeBack} />
       </div>
 
-      <div className="flex-column overflow-y-scroll">
+      <div className="flex-column overflow-y-scroll h-[80%]">
         <div className="px-4 py-6 flex-column gap-5" ref={chatContainerRef}>
           {messages.map((msg, index) => (
             <ChatBubble
@@ -77,7 +77,7 @@ const ChatBox = ({ changeBack }) => {
           ))}
         </div>
       </div>
-      <div className="px-[16px] py-[16px] bg-[var(--box-color-2)] flex-between">
+      <div className="px-[16px] py-[16px] bg-[var(--box-color-2)] flex-between align-bottom">
         <InputCard
           placeHolder="Text Message"
           inputChange={handleChange}
