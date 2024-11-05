@@ -40,6 +40,14 @@
     @apply w-[90%] my-1 mx-auto text-[var(--text-color-muted)];
   }
 
+  .loading-body {
+    @apply flex-center h-screen w-screen bg-black bg-opacity-50 fixed inset-0 z-50;
+  }
+
+  .loading-spinner {
+    @apply w-10 h-10 border-[5px] border-t-[var(--bubble-color)] rounded-full animate-spin;
+  }
+
   .flex-center {
     @apply flex items-center justify-center;
   }
