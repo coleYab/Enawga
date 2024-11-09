@@ -89,7 +89,7 @@ export const googleLogin = async (req, res) => {
       });
     }
 
-    const tokenExpiration = rememberMe ? '7d' : '1h';
+    const tokenExpiration = '4h';
     generateTokenAndSetCookie(user._id, res, tokenExpiration);
 
     // res.status(200).json({
