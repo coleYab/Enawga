@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "server": "nodemon backend/server.js",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint"
   },
   "repository": {
     "type": "git",
