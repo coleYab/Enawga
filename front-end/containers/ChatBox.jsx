@@ -1,25 +1,19 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
-import { MdSend } from "react-icons/md";
-import { FaCloud } from "react-icons/fa6";
+import { useState, useEffect, useRef } from 'react';
+import { MdSend } from 'react-icons/md';
+import { FaCloud } from 'react-icons/fa6';
 
-import ProfileCard from "@components/ProfileCard";
-import ChatBubble from "@components/ChatBubble";
-import InputCard from "@components/InputCard";
+import ProfileCard from '@components/ProfileCard';
+import ChatBubble from '@components/ChatBubble';
+import InputCard from '@components/InputCard';
 
-import { initializeSocket, disconnectSocket } from "../utils/socket.js";
-
-const mockUser2 = {
-  name: "Filip",
-  bio: "I am a software engineer",
-  session: false,
-};
+import { initializeSocket, disconnectSocket } from '../utils/socket.js';
 
 const ChatBox = ({ changeBack, clickedUser }) => {
   const chatContainerRef = useRef(null);
   const [messages, setMessages] = useState([]);
-  const [textValue, setTextValue] = useState("");
+  const [textValue, setTextValue] = useState('');
   const socket = useRef(initializeSocket());
 
   const handleChange = (e) => {
@@ -27,22 +21,28 @@ const ChatBox = ({ changeBack, clickedUser }) => {
     console.log(textValue);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  };
+
   // make a request and when a the button is clicked
   const sendMessage = () => {
     const message = textValue;
-    socket.current.emit("sendMessage", message);
+    socket.current.emit('sendMessage', message);
     setMessages((messages) => [...messages, { message, session: true }]);
-    setTextValue("");
+    setTextValue('');
   };
 
   useEffect(() => {
     const currentSocket = socket.current;
 
-    currentSocket.on("connect", () => {
-      console.log("Connected to socket server");
+    currentSocket.on('connect', () => {
+      console.log('Connected to socket server');
     });
 
-    currentSocket.on("recieveMessage", (message) => {
+    currentSocket.on('recieveMessage', (message) => {
       setMessages((prevMessages) => [
         ...prevMessages,
         { message, session: false },
@@ -85,6 +85,7 @@ const ChatBox = ({ changeBack, clickedUser }) => {
               placeHolder="Text Message"
               inputChange={handleChange}
               inputValue={textValue}
+              onKeyDown={handleKeyDown}
             />
             <i onClick={sendMessage}>
               <MdSend size={25} />
