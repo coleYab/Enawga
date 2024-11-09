@@ -62,14 +62,14 @@ const ChatBox = ({ changeBack, clickedUser }) => {
   });
 
   return (
-    <div className="right-side">
+    <div className="right-side justify-between relative">
       {clickedUser ? (
-        <div className="w-full h-full">
+        <div className="flex-column w-full h-full justify-between">
           <div>
             <ProfileCard user={clickedUser} changeBack={changeBack} />
           </div>
 
-          <div className="flex-column overflow-y-scroll h-[82%]">
+          <div className="flex-column overflow-y-auto snap-y snap-mandatory flex-grow">
             <div className="px-4 py-6 flex-column gap-5" ref={chatContainerRef}>
               {messages.map((msg, index) => (
                 <ChatBubble
