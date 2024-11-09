@@ -2,14 +2,16 @@ import User from '../models/user.model.js';
 import Conversation from '../models/conversation.model.js';
 import Message from '../models/message.model.js';
 
-// Search users by partial username.
+// Search users by partial username, excluding the current user
 export const getUserByUsername = async (req, res) => {
   try {
+    const loggedInUserId = req.user._id;
     const { username } = req.params;
 
-    // Use regex for partial match on username
+    // Use regex for partial match on username and exclude the logged-in user
     const users = await User.find({
       username: { $regex: username, $options: 'i' }, // 'i' for case-insensitive search
+      _id: { $ne: loggedInUserId }, // Exclude the current user by their _id
     }).select('-password');
 
     if (!users || users.length === 0) {
