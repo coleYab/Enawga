@@ -3,11 +3,11 @@ import {
   getUserByUsername,
   getMessageByKeyword,
 } from '../controllers/search.controller.js';
+import protectRoute from '../middleware/protectRoute.js';
 
 const router = express.Router();
 
-router.get('/messages/:id', getMessageByKeyword);
-router.get('/user/:username', getUserByUsername);
+router.get('/messages/:id', protectRoute, getMessageByKeyword);
+router.get('/user/:username', protectRoute, getUserByUsername);
 
 export default router;
-

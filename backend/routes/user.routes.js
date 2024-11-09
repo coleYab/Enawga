@@ -5,13 +5,13 @@ import {
   deleteUser,
   updateUser,
 } from '../controllers/user.controller.js';
+import protectRoute from '../middleware/protectRoute.js';
 
 const router = express.Router();
 
-router.get('/', getUsers);
-router.get('/:id', getUserById);
-router.delete('/', deleteUser);
-router.put('/', updateUser);
+router.get('/', protectRoute, getUsers);
+router.get('/:id', protectRoute, getUserById);
+router.delete('/', protectRoute, deleteUser);
+router.put('/', protectRoute, updateUser);
 
 export default router;
-
