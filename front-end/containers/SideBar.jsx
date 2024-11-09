@@ -1,14 +1,14 @@
-'use client';
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+"use client";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-import { IoArrowBack } from 'react-icons/io5';
-import { GiExitDoor } from 'react-icons/gi';
+import { IoArrowBack } from "react-icons/io5";
+import { GiExitDoor } from "react-icons/gi";
 
-const SideBar = ({ user }) => {
-  const [bio, setBio] = useState(user.bio);
-  const [debounceBio, setDebounceBio] = useState('');
+const SideBar = ({ currentUser }) => {
+  const [bio, setBio] = useState(currentUser.bio);
+  const [debounceBio, setDebounceBio] = useState("");
   const router = useRouter();
 
   // useEffect(() => {
@@ -50,15 +50,15 @@ const SideBar = ({ user }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/logout', {
-        method: 'DELETE',
-        credentials: 'include',
+      const response = await fetch("http://localhost:5000/api/auth/logout", {
+        method: "DELETE",
+        credentials: "include",
       });
       if (!response.ok) {
-        console.log('Logout Failed!');
+        console.log("Logout Failed!");
         return;
       }
-      router.push('/');
+      router.push("/");
     } catch (error) {
       console.log(error);
     }
@@ -73,15 +73,19 @@ const SideBar = ({ user }) => {
         <i
           onClick={() => {
             document
-              .getElementById('sidebar')
-              .classList.replace('left-0', '-left-[100%]');
+              .getElementById("sidebar")
+              .classList.replace("left-0", "-left-[100%]");
           }}
         >
           <IoArrowBack size={25} />
         </i>
 
         <Image
-          src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/filip.jpg"
+          src={
+            currentUser?.profilePic
+              ? `${currentUser.profilePic}`
+              : `https://www.clarity-enhanced.net/wp-content/uploads/2020/06/filip.jpg`
+          }
           alt="profile image"
           width={50}
           height={50}
@@ -91,7 +95,7 @@ const SideBar = ({ user }) => {
 
       <div className="flex-column gap-5 px-4 py-4">
         <h2 className="font-bold text-xl lg:text-2xl w-full ml-[1rem]">
-          {user.name}
+          {currentUser.username}
         </h2>
 
         <div>

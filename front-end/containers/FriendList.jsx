@@ -7,7 +7,7 @@ import InputCard from "@components/InputCard";
 import FriendCard from "@components/FriendCard";
 
 const FriendList = ({
-  users,
+  friends,
   theme,
   changeTheme,
   handleNotification,
@@ -17,7 +17,6 @@ const FriendList = ({
     <div className="left-side">
       <div>
         <ProfileCard
-          user={users[0]}
           theme={theme}
           changeTheme={changeTheme}
           handleNotification={handleNotification}
@@ -25,32 +24,28 @@ const FriendList = ({
         />
       </div>
 
-      <div className="bg-[var(--box-color-3)] px-[13px] py-[10px]">
-        <div className="bg-[var(--box-color)] rounded-[40px] px-2 flex items-center">
-          <i className="text-2xl">
-            <IoSearchSharp />
-          </i>
-
-          <div className="w-full">
-            <InputCard placeHolder="Search here" />
-          </div>
-        </div>
+      <div className="bg-[var(--box-color-3)] px-[13px] py-[10px] flex-center">
+        <button
+          onClick={() => {
+            document
+              .getElementById("search_container")
+              .classList.replace("hidden", "fixed");
+          }}
+          className="w-full py-1 bg-[var(--box-color)] border border-transparent flex-center gap-2 hover:bg-[var(--box-color-2)] hover:border-[var(--box-color)] rounded-sm"
+        >
+          <IoSearchSharp />
+          <p>Find new friends</p>
+        </button>
       </div>
 
       <div className="h-full overflow-y-auto">
-        {users.map((user, index) => (
-          <div
-            key={index}
-            onClick={() => {
-              document
-                .getElementById("profile_container")
-                .classList.replace("hidden", "fixed");
-            }}
-          >
-            <FriendCard user={user} />
-            <hr />
-          </div>
-        ))}
+        {friends &&
+          friends.map((friend, index) => (
+            <div key={index}>
+              <FriendCard user={friend} />
+              <hr />
+            </div>
+          ))}
         {/* <div
           onClick={() => {
             document

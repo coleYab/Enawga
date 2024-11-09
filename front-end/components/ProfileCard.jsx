@@ -5,6 +5,8 @@ import { MdNightsStay } from "react-icons/md";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { IoArrowBack } from "react-icons/io5";
 
+import DefaultProfile from "@public/assets/default-profile-image.jpg";
+
 const ProfileCard = ({
   user,
   theme,
@@ -25,7 +27,11 @@ const ProfileCard = ({
         </div>
         <div>
           <Image
-            src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/filip.jpg"
+            src={
+              currentUser?.profilePic
+                ? `${currentUser.profilePic}`
+                : DefaultProfile
+            }
             alt="profile image"
             width={50}
             height={50}
