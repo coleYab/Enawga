@@ -2,7 +2,7 @@ import User from '../models/user.model.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import generateTokenAndSetCookie from '../utils/generateToken.js';
-import { v4 as uuid4 } from 'uuid'; 
+import { v4 as uuid4 } from 'uuid';
 
 export const signUp = async (req, res) => {
   try {
@@ -70,14 +70,18 @@ export const googleLogin = async (req, res) => {
         .json({ error: 'No email found in Google profile' });
     }
 
-    // create the user pr 
+    // create the user pr
     let user = await User.findOne({ email });
     if (!user) {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(uuid4(), salt);
+      const username = `${req.user?.displayName
+        .replace(' ', '_')
+        .toLowerCase()}${Math.floor(10 + Math.random() * 90)}`;
+
       user = await User.create({
         fullName: req.user?.displayName,
-        username: req.user?.id,
+        username,
         email,
         password: hashedPassword,
         profilePic: req.user._json?.picture,
@@ -96,7 +100,7 @@ export const googleLogin = async (req, res) => {
     //   profilePic: user.profilePic,
     //   bio: user.bio,
     // });
-    res.redirect('http://localhost:3000/');
+    res.redirect('http://localhost:3000/home');
   } catch (error) {
     console.error('Error in google login controller:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
