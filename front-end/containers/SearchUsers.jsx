@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import { IoSearchSharp } from "react-icons/io5";
 import { IoArrowBack } from "react-icons/io5";
 import { MdOutlineMessage } from "react-icons/md";
+import { FaUserSlash } from "react-icons/fa6";
 
+import { sleep } from "@utils/commonFunctions";
 import DefaultProfile from "@public/assets/default-profile-image.jpg";
 
 const SearchUsers = ({}) => {
@@ -60,8 +62,12 @@ const SearchUsers = ({}) => {
         console.log("Failed to send new message");
         return;
       }
+      setSearch("");
 
-      router.push("/home");
+      document
+        .getElementById("search_container")
+        .classList.replace("fixed", "hidden");
+      router.reload();
     } catch (error) {
       console.log("Error sending new message: ", error);
     }
@@ -99,46 +105,62 @@ const SearchUsers = ({}) => {
           </div>
         </div>
 
-        <ul className="h-[650px] bg-[var(--box-color-3)] overflow-y-auto">
-          {users &&
-            users.map((user, index) => (
-              <div key={index} className="hover:bg-[var(--box-color)]">
-                <li className="py-3 px-6 flex-between">
-                  <div className="flex">
-                    <div className="w-[50px] h-[50px] mr-4">
-                      <Image
-                        src={
-                          user.profilePic
-                            ? `${user.profilePic}`
-                            : DefaultProfile
-                        }
-                        alt="profile image"
-                        width={50}
-                        height={50}
-                        className="profile-image"
-                      />
-                    </div>
+        {search.length > 0 ? (
+          <ul className="h-[650px] bg-[var(--box-color-3)] overflow-y-auto">
+            {users &&
+              users.map((user, index) => (
+                <div key={index} className="hover:bg-[var(--box-color)]">
+                  <li className="py-3 px-6 flex-between">
+                    <div className="flex">
+                      <div className="w-[50px] h-[50px] mr-4">
+                        <Image
+                          src={
+                            user.profilePic
+                              ? `${user.profilePic}`
+                              : DefaultProfile
+                          }
+                          alt="profile image"
+                          width={50}
+                          height={50}
+                          className="profile-image"
+                        />
+                      </div>
 
-                    <div>
-                      <h2 className="font-semibold text-sm lg:text-lg">
-                        {user.username}
-                      </h2>
-                      <p className="text-[var(--text-color-muted)] leading-5">
-                        {user.fullName}
-                      </p>
+                      <div>
+                        <h2 className="font-semibold text-sm lg:text-lg">
+                          {user.username}
+                        </h2>
+                        <p className="text-[var(--text-color-muted)] leading-5">
+                          {user.fullName}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <button
-                    onClick={() => handleMessageClick(user)}
-                    className="mr-14 p-1 rounded-md hover:bg-[var(--hover-color)]"
-                  >
-                    <MdOutlineMessage size={25} />
-                  </button>
-                </li>
-                <hr />
+                    <button
+                      onClick={() => handleMessageClick(user)}
+                      className="mr-14 p-1 rounded-md hover:bg-[var(--hover-color)]"
+                    >
+                      <MdOutlineMessage size={25} />
+                    </button>
+                  </li>
+                  <hr />
+                </div>
+              ))}
+          </ul>
+        ) : (
+          <div className="h-full flex-center items-center">
+            {search.length > 0 ? (
+              <div>
+                <FaUserSlash size={100} />
+                <h2>No users found</h2>
               </div>
-            ))}
-        </ul>
+            ) : (
+              <div>
+                <IoSearchSharp size={100} />
+                <h2>Search for users</h2>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
