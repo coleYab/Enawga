@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { MdSend } from "react-icons/md";
+import { FaCloud } from "react-icons/fa6";
 
 import ProfileCard from "@components/ProfileCard";
 import ChatBubble from "@components/ChatBubble";
@@ -62,31 +63,42 @@ const ChatBox = ({ changeBack, clickedUser }) => {
 
   return (
     <div className="right-side">
-      <div className="mb-5">
-        <ProfileCard user={clickedUser} changeBack={changeBack} />
-      </div>
+      {clickedUser ? (
+        <div className="w-full h-full">
+          <div>
+            <ProfileCard user={clickedUser} changeBack={changeBack} />
+          </div>
 
-      <div className="flex-column overflow-y-scroll h-[82%]">
-        <div className="px-4 py-6 flex-column gap-5" ref={chatContainerRef}>
-          {messages.map((msg, index) => (
-            <ChatBubble
-              key={index}
-              message={msg.message}
-              session={msg.session}
+          <div className="flex-column overflow-y-scroll h-[82%]">
+            <div className="px-4 py-6 flex-column gap-5" ref={chatContainerRef}>
+              {messages.map((msg, index) => (
+                <ChatBubble
+                  key={index}
+                  message={msg.message}
+                  session={msg.session}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="px-[16px] py-[16px] bg-[var(--box-color-2)] flex-between align-bottom">
+            <InputCard
+              placeHolder="Text Message"
+              inputChange={handleChange}
+              inputValue={textValue}
             />
-          ))}
+            <i onClick={sendMessage}>
+              <MdSend size={25} />
+            </i>
+          </div>
         </div>
-      </div>
-      <div className="px-[16px] py-[16px] bg-[var(--box-color-2)] flex-between align-bottom">
-        <InputCard
-          placeHolder="Text Message"
-          inputChange={handleChange}
-          inputValue={textValue}
-        />
-        <i onClick={sendMessage}>
-          <MdSend size={25} />
-        </i>
-      </div>
+      ) : (
+        <div className="h-full w-full flex-center">
+          <div className="flex-column items-center">
+            <FaCloud size={100} />
+            <h2>No user selected</h2>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
