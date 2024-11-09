@@ -22,7 +22,7 @@ router.get(
 router.get(
   '/loggedIn',
   passport.authenticate('google', {
-    failureRedirect: '/api/auth/signup',
+    failureRedirect: 'http://localhost:3000/login',
   }),
   googleLogin,
 );
