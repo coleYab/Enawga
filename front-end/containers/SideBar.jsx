@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { IoArrowBack } from "react-icons/io5";
 import { GiExitDoor } from "react-icons/gi";
 
+import { sleep } from "@utils/commonFunctions";
+
 const SideBar = ({ currentUser }) => {
   const [bio, setBio] = useState(currentUser.bio);
   const [debounceBio, setDebounceBio] = useState("");
@@ -58,7 +60,18 @@ const SideBar = ({ currentUser }) => {
         console.log("Logout Failed!");
         return;
       }
+
+      sleep(500);
+      document.getElementById("loading-body").classList.add("loading-body");
+      document
+        .getElementById("loading-spinner")
+        .classList.add("loading-spinner");
       router.push("/");
+      sleep(500);
+      document.getElementById("loading-body").classList.remove("loading-body");
+      document
+        .getElementById("loading-spinner")
+        .classList.remove("loading-spinner");
     } catch (error) {
       console.log(error);
     }

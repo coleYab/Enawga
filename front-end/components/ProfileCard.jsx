@@ -5,6 +5,7 @@ import { MdNightsStay } from "react-icons/md";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { IoArrowBack } from "react-icons/io5";
 
+import { trim } from "@utils/commonFunctions";
 import DefaultProfile from "@public/assets/default-profile-image.jpg";
 
 const ProfileCard = ({
@@ -30,6 +31,8 @@ const ProfileCard = ({
             src={
               currentUser?.profilePic
                 ? `${currentUser.profilePic}`
+                : user?.profilePic
+                ? `${user.profilePic}`
                 : DefaultProfile
             }
             alt="profile image"
@@ -50,9 +53,14 @@ const ProfileCard = ({
 
         {!currentUser && (
           <div className="flex-col">
-            <h2 className="font-semibold text-sm lg:text-lg">{user.name}</h2>
+            <h2 className="font-semibold text-sm lg:text-lg">
+              {user.fullName}
+              <span className="ml-2 text-[var(--text-color-muted)] font-normal">
+                ({user.username})
+              </span>
+            </h2>
             <p className="text-[var(--text-color-muted)] leading-5">
-              {user.bio}
+              {user.bio.length > 0 ? trim(user.bio) : "No bio found"}
             </p>
           </div>
         )}

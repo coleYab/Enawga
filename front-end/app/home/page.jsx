@@ -78,6 +78,7 @@ const HomePage = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [clickedUser, setClickedUser] = useState(null);
 
   const router = useRouter();
 
@@ -161,10 +162,18 @@ const HomePage = () => {
     setOpenNoti((prev) => !prev);
   };
 
+  const handleClickedUser = (user) => {
+    console.log("Clicked User: ", user);
+    setClickedUser(user);
+    console.log("Set Clicked User: ", clickedUser);
+  };
+
   return (
     <>
       {loading ? (
-        <h1 className="text-black">Loading ...</h1>
+        <div className="loading-body">
+          <div className="loading-spinner" />
+        </div>
       ) : !currentUser ? (
         <>
           <Error message="User data not found." />
@@ -188,16 +197,24 @@ const HomePage = () => {
             <FriendList
               friends={friends}
               theme={theme}
+              handleClickedUser={handleClickedUser}
               changeTheme={changeTheme}
               handleNotification={handleNotification}
               currentUser={currentUser}
             />
-            <ChatBox />
+            <ChatBox clickedUser={clickedUser} />
           </div>
 
           <div className="lg:hidden block w-full h-full relative">
             {!isBack ? (
-              <FriendList theme={theme} changeTheme={changeTheme} />
+              <FriendList
+                friends={friends}
+                theme={theme}
+                handleClickedUser={handleClickedUser}
+                changeTheme={changeTheme}
+                handleNotification={handleNotification}
+                currentUser={currentUser}
+              />
             ) : (
               <ChatBox changeBack={changeBack} />
             )}

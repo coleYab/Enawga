@@ -1,14 +1,15 @@
 "use client";
 
 import { IoSearchSharp } from "react-icons/io5";
+import { FaUserSlash } from "react-icons/fa6";
 
 import ProfileCard from "@components/ProfileCard";
-import InputCard from "@components/InputCard";
 import FriendCard from "@components/FriendCard";
 
 const FriendList = ({
   friends,
   theme,
+  handleClickedUser,
   changeTheme,
   handleNotification,
   currentUser,
@@ -39,23 +40,21 @@ const FriendList = ({
       </div>
 
       <div className="h-full overflow-y-auto">
-        {friends &&
+        {friends.length > 0 ? (
           friends.map((friend, index) => (
-            <div key={index}>
+            <div key={index} onClick={() => handleClickedUser(friend)}>
               <FriendCard user={friend} />
               <hr />
             </div>
-          ))}
-        {/* <div
-          onClick={() => {
-            document
-              .getElementById("profile_container")
-              .classList.replace("hidden", "fixed");
-          }}
-        >
-          <FriendCard user={user} />
-          <hr />
-        </div> */}
+          ))
+        ) : (
+          <div className="h-full flex-center">
+            <div className="flex-column items-center">
+              <FaUserSlash size={100} />
+              <h2>No Friends found</h2>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

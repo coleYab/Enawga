@@ -15,7 +15,7 @@ const mockUser2 = {
   session: false,
 };
 
-const ChatBox = ({ changeBack }) => {
+const ChatBox = ({ changeBack, clickedUser }) => {
   const chatContainerRef = useRef(null);
   const [messages, setMessages] = useState([]);
   const [textValue, setTextValue] = useState("");
@@ -63,10 +63,10 @@ const ChatBox = ({ changeBack }) => {
   return (
     <div className="right-side">
       <div className="mb-5">
-        <ProfileCard user={mockUser2} changeBack={changeBack} />
+        <ProfileCard user={clickedUser} changeBack={changeBack} />
       </div>
 
-      <div className="flex-column overflow-y-scroll h-[80%]">
+      <div className="flex-column overflow-y-scroll h-[82%]">
         <div className="px-4 py-6 flex-column gap-5" ref={chatContainerRef}>
           {messages.map((msg, index) => (
             <ChatBubble
