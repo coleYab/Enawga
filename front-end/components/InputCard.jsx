@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const InputCard = ({ placeHolder, inputChange, inputValue }) => {
+const InputCard = ({ placeHolder, inputChange, inputValue, onKeyDown }) => {
   return (
     <div className="w-full">
       <input
@@ -9,6 +9,7 @@ const InputCard = ({ placeHolder, inputChange, inputValue }) => {
         placeholder={placeHolder}
         value={inputValue}
         onChange={inputChange}
+        onKeyDown={onKeyDown}
       />
     </div>
   );
