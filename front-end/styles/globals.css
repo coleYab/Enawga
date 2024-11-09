@@ -126,6 +126,16 @@
   @apply placeholder:text-[var(--text-color)];
 }
 
+/* SearchUsers */
+.input-container {
+  @apply w-full h-20 px-4 bg-[var(--box-color)] flex items-end;
+}
+
+.search-input {
+  @apply w-[85%]  mb-2 px-3 py-1 text-[var(--text-color)] bg-[var(--box-color)] border-b border-[var(--text-color)] focus:outline-0 transition-none;
+  @apply placeholder:text-[var(--text-color-muted)];
+}
+
 .animated-button {
   @apply h-11 px-4 bg-blue-500 text-xl rounded-md cursor-pointer hover:bg-blue-700;
 }
