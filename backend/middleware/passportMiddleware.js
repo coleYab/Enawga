@@ -1,6 +1,6 @@
-import passport from "passport";
-import dotenv from "dotenv";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import passport from 'passport';
+import dotenv from 'dotenv';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 
 dotenv.config();
 
@@ -13,16 +13,16 @@ passport.use(
     {
       clientID: clientId,
       clientSecret: googleSecret,
-      callbackURL: "http://localhost:5000/api/auth/loggedIn",
+      callbackURL: 'http://localhost:5000/api/auth/loggedIn',
     },
     (accessToken, refreshToken, profile, done) => {
       if (!accessToken) {
-        return done(new Error("No access token received"), null);
+        return done(new Error('No access token received'), null);
       }
 
       done(null, profile);
-    }
-  )
+    },
+  ),
 );
 
 passport.serializeUser((user, done) => {
@@ -30,7 +30,6 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((user, done) => {
-  console.log(user);
   done(null, user);
 });
 
