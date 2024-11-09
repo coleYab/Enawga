@@ -8,3 +8,12 @@ export const trim = (str) => {
   }
   return str;
 };
+
+export const formatTime = (time) => {
+  const date = new Date(time);
+  return date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false,
+  });
+};
