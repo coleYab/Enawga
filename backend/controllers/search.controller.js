@@ -2,15 +2,21 @@ import User from '../models/user.model.js';
 import Conversation from '../models/conversation.model.js';
 import Message from '../models/message.model.js';
 
-// Search users by username.
+// Search users by partial username.
 export const getUserByUsername = async (req, res) => {
   try {
     const { username } = req.params;
-    const user = await User.findOne({ username }).select('-password');
 
-    if (!user) return res.status(404).json({ error: 'User not found' });
+    // Use regex for partial match on username
+    const users = await User.find({
+      username: { $regex: username, $options: 'i' }, // 'i' for case-insensitive search
+    }).select('-password');
 
-    return res.status(200).json(user);
+    if (!users || users.length === 0) {
+      return res.status(404).json({ error: 'No users found' });
+    }
+
+    return res.status(200).json(users);
   } catch (error) {
     console.log('Error in getUserByUsername controller: ', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -22,8 +28,9 @@ export const getMessageByKeyword = async (req, res) => {
   try {
     const receiverId = req.user._id;
     const senderId = req.params.id;
-    const { keyword } = req.query;
+    const { keyword } = req.query; // Assume the keyword is passed as a query parameter
 
+    // Find the conversation between the two users
     const conversation = await Conversation.findOne({
       members: { $all: [receiverId, senderId] },
     }).populate({
@@ -43,4 +50,3 @@ export const getMessageByKeyword = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-
