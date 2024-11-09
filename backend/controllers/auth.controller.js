@@ -154,7 +154,6 @@ export const logout = async (req, res) => {
 export const verifyToken = async (req, res) => {
   try {
     const token = req.cookies['jwt'];
-    console.log('verifyToken:', token);
     if (!token) {
       return res.status(401).json({ error: 'No token provided' });
     }
