@@ -35,22 +35,27 @@ const ChatBox = ({ changeBack, clickedUser }) => {
     setTextValue('');
   };
 
+  // Hooks: connect the user when the component is fully loaded
   useEffect(() => {
     const currentSocket = socket.current;
-
+    
     currentSocket.on('connect', () => {
       console.log('Connected to socket server');
     });
-
-    currentSocket.on('recieveMessage', (message) => {
+    
+    currentSocket.on('newIncomingMessage', (message) => {
       setMessages((prevMessages) => [
         ...prevMessages,
-        { message, session: false },
+        { ...message, message:message.message_content, session: false },
       ]);
+      console.log("Reciveing a new message: ", messages);
     });
 
     return () => {
-      disconnectSocket();
+      setMessages([]);
+      if (socket.current) {
+        disconnectSocket();
+      }
     };
   }, []);
 
