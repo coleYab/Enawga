@@ -10,11 +10,11 @@ import InputCard from '@components/InputCard';
 
 import { initializeSocket, disconnectSocket } from '../utils/socket.js';
 
-const ChatBox = ({ changeBack, clickedUser }) => {
+const ChatBox = ({ changeBack, currentUser, clickedUser }) => {
   const chatContainerRef = useRef(null);
   const [messages, setMessages] = useState([]);
   const [textValue, setTextValue] = useState('');
-  const socket = useRef(initializeSocket());
+  const socket = useRef(initializeSocket(currentUser?._id));
 
   const handleChange = (e) => {
     setTextValue(e.target.value);
@@ -27,8 +27,9 @@ const ChatBox = ({ changeBack, clickedUser }) => {
     }
   };
 
-  // TODO(coleYab): make it interactive
   const sendMessage = async () => {
+    if (!clickedUser) return;
+
     const theTextValue = textValue;
     setTextValue('');
 
@@ -65,8 +66,12 @@ const ChatBox = ({ changeBack, clickedUser }) => {
 
   // Hook1: connect the user when the component is fully loaded
   useEffect(() => {
+    if (!socket) {
+      console.log("What the fuck was that?")
+      return;
+    }
     const currentSocket = socket.current;
-    
+
     currentSocket.on('connect', () => {
       console.log('Connected to socket server');
     });
@@ -144,6 +149,7 @@ const ChatBox = ({ changeBack, clickedUser }) => {
                 <ChatBubble
                   key={index}
                   message={msg.message}
+                  createdAt={msg.createdAt}
                   session={msg.session}
                 />
               ))}

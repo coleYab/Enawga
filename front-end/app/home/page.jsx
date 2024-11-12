@@ -130,7 +130,10 @@ const HomePage = () => {
               handleNotification={handleNotification}
               currentUser={currentUser}
             />
-            <ChatBox clickedUser={clickedUser} />
+            <ChatBox
+              currentUser={currentUser} 
+              clickedUser={clickedUser}
+            />
           </div>
 
           <div className="lg:hidden block w-full h-full relative">
