@@ -6,7 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
@@ -28,5 +28,9 @@ io.on("connection", (socket) => {
     usersSocketId.delete(userId);
   });
 });
+
+const getSocketIdFromUserId = (userId) => {
+  return usersSocketId.get(userId);
+}
 
 export { app, server, io };
