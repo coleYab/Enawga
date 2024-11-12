@@ -27,32 +27,101 @@ const ChatBox = ({ changeBack, clickedUser }) => {
     }
   };
 
-  // make a request and when a the button is clicked
-  const sendMessage = () => {
-    const message = textValue;
-    socket.current.emit('sendMessage', message);
-    setMessages((messages) => [...messages, { message, session: true }]);
+  // TODO(coleYab): make it interactive
+  const sendMessage = async () => {
+    const theTextValue = textValue;
     setTextValue('');
+
+    // sorry but we are not allowing users to send empty messages
+    if (theTextValue.trim() === '') {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/messages/send/${clickedUser._id}`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            message_content: theTextValue
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        console.log("Failed to send new message");
+        return;
+      }
+
+      setMessages((messages) => [...messages, { message: theTextValue, session: true }]);
+    } catch (error) {
+      console.log("Error sending new message: ", error);
+    }
   };
 
+  // Hook1: connect the user when the component is fully loaded
   useEffect(() => {
     const currentSocket = socket.current;
-
+    
     currentSocket.on('connect', () => {
       console.log('Connected to socket server');
     });
-
-    currentSocket.on('recieveMessage', (message) => {
+    
+    currentSocket.on('newIncomingMessage', (message) => {
       setMessages((prevMessages) => [
         ...prevMessages,
-        { message, session: false },
+        { ...message, message:message.message_content, session: false },
       ]);
+      console.log("Reciveing a new message: ", messages);
     });
 
     return () => {
-      disconnectSocket();
+      setMessages([]);
+      if (socket.current) {
+        disconnectSocket();
+      }
     };
   }, []);
+
+  // Hook2: load the previous chat histroy whenever the clicked user is changed
+    useEffect(() => {
+    if (clickedUser) {
+      // Helper: load all the coversation from the db
+      const fetchConverstaion = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:5000/api/messages/user/${clickedUser._id}`,
+            {
+              credentials: "include",
+            }
+          );
+  
+          if (!response.ok) {
+            console.log("Failed to fetch previous messages:", response.status);
+            return;
+          }
+  
+          const previousMessages = await response.json();
+  
+          previousMessages.forEach((message) => {
+            message.message = message.message_content,
+            message.session = message.receiverId === clickedUser._id;
+          });
+  
+          setMessages(previousMessages);
+        } catch (err) {
+          console.log("Error while fetching previous messages:", err);
+        }
+      };
+
+      fetchConverstaion();
+    }
+  }, [clickedUser]);
+
 
   useEffect(() => {
     if (chatContainerRef.current) {

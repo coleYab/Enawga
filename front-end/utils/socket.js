@@ -3,9 +3,13 @@ import { io } from 'socket.io-client';
 let socket;
 
 // create socket for connection
-export const initializeSocket = () => {
+export const initializeSocket = (currentUserId) => {
   if (!socket) {
-    socket = io('http://localhost:5000'); 
+    socket = io('http://localhost:5000', {
+      query: {
+        'userId': currentUserId
+      }
+    });
   }
   return socket;
 };
