@@ -27,12 +27,33 @@ const ChatBox = ({ changeBack, clickedUser }) => {
     }
   };
 
-  // make a request and when a the button is clicked
-  const sendMessage = () => {
-    const message = textValue;
-    socket.current.emit('sendMessage', message);
-    setMessages((messages) => [...messages, { message, session: true }]);
-    setTextValue('');
+  // TODO(coleYab): make it interactive
+  const sendMessage = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/messages/send/${clickedUser._id}`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            message_content: textValue
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        console.log("Failed to send new message");
+        return;
+      }
+
+      setMessages((messages) => [...messages, { message: textValue, session: true }]);
+    } catch (error) {
+      console.log("Error sending new message: ", error);
+    }
+    setTextValue();
   };
 
   // Hook1: connect the user when the component is fully loaded
@@ -78,7 +99,6 @@ const ChatBox = ({ changeBack, clickedUser }) => {
           }
   
           const previousMessages = await response.json();
-          console.log(previousMessages)
   
           previousMessages.forEach((message) => {
             message.message = message.message_content,
