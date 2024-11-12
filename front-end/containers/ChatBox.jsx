@@ -35,7 +35,7 @@ const ChatBox = ({ changeBack, clickedUser }) => {
     setTextValue('');
   };
 
-  // Hooks: connect the user when the component is fully loaded
+  // Hook1: connect the user when the component is fully loaded
   useEffect(() => {
     const currentSocket = socket.current;
     
@@ -58,6 +58,43 @@ const ChatBox = ({ changeBack, clickedUser }) => {
       }
     };
   }, []);
+
+  // Hook2: load the previous chat histroy whenever the clicked user is changed
+    useEffect(() => {
+    if (clickedUser) {
+      // Helper: load all the coversation from the db
+      const fetchConverstaion = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:5000/api/messages/user/${clickedUser._id}`,
+            {
+              credentials: "include",
+            }
+          );
+  
+          if (!response.ok) {
+            console.log("Failed to fetch previous messages:", response.status);
+            return;
+          }
+  
+          const previousMessages = await response.json();
+          console.log(previousMessages)
+  
+          previousMessages.forEach((message) => {
+            message.message = message.message_content,
+            message.session = message.receiverId === clickedUser._id;
+          });
+  
+          setMessages(previousMessages);
+        } catch (err) {
+          console.log("Error while fetching previous messages:", err);
+        }
+      };
+
+      fetchConverstaion();
+    }
+  }, [clickedUser]);
+
 
   useEffect(() => {
     if (chatContainerRef.current) {
