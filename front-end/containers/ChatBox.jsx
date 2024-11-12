@@ -29,6 +29,14 @@ const ChatBox = ({ changeBack, clickedUser }) => {
 
   // TODO(coleYab): make it interactive
   const sendMessage = async () => {
+    const theTextValue = textValue;
+    setTextValue('');
+
+    // sorry but we are not allowing users to send empty messages
+    if (theTextValue.trim() === '') {
+      return;
+    }
+
     try {
       const response = await fetch(
         `http://localhost:5000/api/messages/send/${clickedUser._id}`,
@@ -39,7 +47,7 @@ const ChatBox = ({ changeBack, clickedUser }) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            message_content: textValue
+            message_content: theTextValue
           }),
         }
       );
@@ -49,11 +57,10 @@ const ChatBox = ({ changeBack, clickedUser }) => {
         return;
       }
 
-      setMessages((messages) => [...messages, { message: textValue, session: true }]);
+      setMessages((messages) => [...messages, { message: theTextValue, session: true }]);
     } catch (error) {
       console.log("Error sending new message: ", error);
     }
-    setTextValue();
   };
 
   // Hook1: connect the user when the component is fully loaded
