@@ -149,6 +149,7 @@ const ChatBox = ({ changeBack, currentUser, clickedUser }) => {
                 <ChatBubble
                   key={index}
                   message={msg.message}
+                  createdAt={msg.createdAt}
                   session={msg.session}
                 />
               ))}
