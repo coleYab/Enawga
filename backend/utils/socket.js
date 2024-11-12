@@ -33,4 +33,4 @@ const getSocketIdFromUserId = (userId) => {
   return usersSocketId.get(userId);
 }
 
-export { app, server, io };
+export { app, server, io, getSocketIdFromUserId };
