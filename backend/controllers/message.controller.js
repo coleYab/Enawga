@@ -1,6 +1,6 @@
 import Conversation from '../models/conversation.model.js';
 import Message from '../models/message.model.js';
-import { io } from '../utils/socket.js'
+import { io as socket, getSocketIdFromUserId } from '../utils/socket.js'
 
 export const sendMessage = async (req, res) => {
   try {
@@ -28,9 +28,12 @@ export const sendMessage = async (req, res) => {
       conversation.messages.push(newMessage._id);
     }
 
-    // Optionally do send the message from here
-    // socket.to(user).emit('message', {sender: senderID, reciver: reciverId, message: message_content})
-    await Promise.all([conversation.save(), newMessage.save()]); // This runs the above two lines in paraller. More faster
+    const reciverSid = getSocketIdFromUserId(reciverId);
+    if (reciverSid) {
+        socket.to(reciverSid).emit('newIncomingMessage', newMessage);
+    }
+
+    await Promise.all([conversation.save(), newMessage.save()]);
 
     res.status(201).json(newMessage);
   } catch (error) {
