@@ -10,6 +10,8 @@ import SideBar from "@containers/SideBar";
 import SearchUsers from "@containers/SearchUsers";
 import Error from "@containers/ErrorPage";
 
+import { fetchFriends } from "@utils/commonFunctions";
+
 const HomePage = () => {
   const [theme, setTheme] = useState("dark");
   const [isBack, setIsBack] = useState(true);
@@ -64,29 +66,7 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    const fetchFriends = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/users", {
-          credentials: "include",
-        });
-
-        if (!response.ok) {
-          console.log("Failed to fetch friends");
-          return;
-        }
-
-        const data = await response.json();
-
-        if (data) {
-          console.log("Friends: ", data);
-          setFriends(data);
-        }
-      } catch (error) {
-        console.log("Error fetching friends: ", error);
-      }
-    };
-
-    fetchFriends();
+    fetchFriends(setFriends);
   }, []);
 
   const handleMessageClick = async (message) => {
@@ -136,7 +116,7 @@ const HomePage = () => {
       ) : (
         <div className="w-screen h-screen bg-[var(--box-color)] flex justify-center">
           <SideBar currentUser={currentUser} />
-          <SearchUsers />
+          <SearchUsers setFriends={setFriends} />
 
           {openNoti && (
             <NotificationList

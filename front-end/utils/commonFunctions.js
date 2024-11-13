@@ -17,3 +17,25 @@ export const formatTime = (time) => {
     hour12: false,
   });
 };
+
+export const fetchFriends = async (setFriends) => {
+  try {
+    const response = await fetch("http://localhost:5000/api/users", {
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      console.log("Failed to fetch friends");
+      return;
+    }
+
+    const data = await response.json();
+
+    if (data) {
+      console.log("Friends: ", data);
+      setFriends(data);
+    }
+  } catch (error) {
+    console.log("Error fetching friends: ", error);
+  }
+};

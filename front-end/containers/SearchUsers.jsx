@@ -7,10 +7,10 @@ import { IoArrowBack } from "react-icons/io5";
 import { MdOutlineMessage } from "react-icons/md";
 import { FaUserSlash } from "react-icons/fa6";
 
-import { sleep } from "@utils/commonFunctions";
+import { fetchFriends, sleep } from "@utils/commonFunctions";
 import DefaultProfile from "@public/assets/default-profile-image.jpg";
 
-const SearchUsers = ({}) => {
+const SearchUsers = ({ setFriends }) => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
   const router = useRouter();
@@ -44,6 +44,10 @@ const SearchUsers = ({}) => {
 
   const handleMessageClick = async (user) => {
     try {
+      document.getElementById("loading-body").classList.add("loading-body");
+      document
+        .getElementById("loading-spinner")
+        .classList.add("loading-spinner");
       const response = await fetch(
         `http://localhost:5000/api/messages/send/${user._id}`,
         {
@@ -63,6 +67,11 @@ const SearchUsers = ({}) => {
         return;
       }
       setSearch("");
+      await fetchFriends(setFriends);
+      document.getElementById("loading-body").classList.remove("loading-body");
+      document
+        .getElementById("loading-spinner")
+        .classList.remove("loading-spinner");
 
       document
         .getElementById("search_container")
