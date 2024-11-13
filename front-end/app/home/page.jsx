@@ -1,19 +1,19 @@
-"use client";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
+'use client';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
-import FriendList from "@containers/FriendList";
-import ChatBox from "@containers/ChatBox";
-import NotificationList from "@containers/NotificationList";
-import SideBar from "@containers/SideBar";
-import SearchUsers from "@containers/SearchUsers";
-import Error from "@containers/ErrorPage";
+import FriendList from '@containers/FriendList';
+import ChatBox from '@containers/ChatBox';
+import NotificationList from '@containers/NotificationList';
+import SideBar from '@containers/SideBar';
+import SearchUsers from '@containers/SearchUsers';
+import Error from '@containers/ErrorPage';
 
-import { fetchFriends } from "@utils/commonFunctions";
+import { fetchFriends } from '@utils/commonFunctions';
 
 const HomePage = () => {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState('dark');
   const [isBack, setIsBack] = useState(true);
   const [openNoti, setOpenNoti] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
@@ -31,7 +31,7 @@ const HomePage = () => {
   // read message
   const removeUnreadMessage = (message) => {
     setunreadMessageList((prevUnreadMsg) =>
-      prevUnreadMsg.filter((p) => p?._id !== message?._id)
+      prevUnreadMsg.filter((p) => p?._id !== message?._id),
     );
   };
 
@@ -42,16 +42,13 @@ const HomePage = () => {
           `http://localhost:5000/api/auth/verify?timestamp=${new Date().getTime()}`, // To prevent caching.
           {
             withCredentials: true,
-          }
+          },
         );
-        console.log(response.status);
         if (response.status === 200) {
           const data = response.data;
-          console.log("Home Data: ", data.user);
           setCurrentUser(data.user);
           setLoading(false);
         } else {
-          console.log("No user data found");
           setCurrentUser(null);
           setLoading(false);
         }
@@ -82,8 +79,8 @@ const HomePage = () => {
   };
 
   const changeTheme = () => {
-    document.body.classList.toggle("light");
-    setTheme(theme === "dark" ? "light" : "dark");
+    document.body.classList.toggle('light');
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   const changeBack = () => {
@@ -95,13 +92,11 @@ const HomePage = () => {
   };
 
   const handleClickedUser = (user) => {
-    console.log("Clicked User: ", user);
     setClickedUser(user);
-    console.log("Set Clicked User: ", clickedUser);
   };
 
   const handleError = () => {
-    router.push("/");
+    router.push('/');
   };
 
   return (
