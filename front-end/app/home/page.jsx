@@ -9,7 +9,6 @@ import NotificationList from "@containers/NotificationList";
 import SideBar from "@containers/SideBar";
 import SearchUsers from "@containers/SearchUsers";
 import Error from "@containers/ErrorPage";
-import Choice from "@components/Choice";
 
 import { fetchFriends } from "@utils/commonFunctions";
 
@@ -122,7 +121,6 @@ const HomePage = () => {
         <div className="w-screen h-screen bg-[var(--box-color)] flex justify-center">
           <SideBar currentUser={currentUser} />
           <SearchUsers setFriends={setFriends} />
-          {/* <Choice /> */}
 
           {openNoti && (
             <NotificationList
