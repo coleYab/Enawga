@@ -42,6 +42,39 @@ export const sendMessage = async (req, res) => {
   }
 };
 
+
+export const deleteTheConversation = async (req, res) => {
+  const { receiverId } = req.body;
+  const senderId = req.user._id;
+
+  // Validate input
+  if (!senderId || !receiverId) {
+    return res.status(400).json({ error: 'senderId and receiverId are required' });
+  }
+
+  try {
+    const result = await Message.deleteMany({
+      $or: [
+        { senderId: senderId, receiverId: receiverId },
+        { senderId: receiverId, receiverId: senderId },
+      ],
+    });
+
+    await Conversation.deleteOne({
+      message: [ senderId, reciverId ]
+    });
+
+    if (result.deletedCount > 0) {
+      return res.status(200).json({ message: 'Conversation deleted successfully' });
+    } else {
+      return res.status(404).json({ message: 'No conversation found between the specified users' });
+    }
+  } catch (error) {
+    console.error('Error deleting conversation:', error);
+    return res.status(500).json({ error: 'An error occurred while deleting the conversation' });
+  }
+}
+
 export const getMessages = async (req, res) => {
   try {
     const { id: receiverId } = req.params; // Receiver's id
