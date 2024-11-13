@@ -9,6 +9,7 @@ import NotificationList from "@containers/NotificationList";
 import SideBar from "@containers/SideBar";
 import SearchUsers from "@containers/SearchUsers";
 import Error from "@containers/ErrorPage";
+import Choice from "@components/Choice";
 
 import { fetchFriends } from "@utils/commonFunctions";
 
@@ -100,6 +101,10 @@ const HomePage = () => {
     console.log("Set Clicked User: ", clickedUser);
   };
 
+  const handleError = () => {
+    router.push("/");
+  };
+
   return (
     <>
       {loading ? (
@@ -108,7 +113,7 @@ const HomePage = () => {
         </div>
       ) : !currentUser ? (
         <>
-          <Error message="User data not found." />
+          <Error message="User data not found." handleError={handleError} />
           <p className="text-black">
             Try Logging in. <a href="/login">Login</a>
           </p>
@@ -117,6 +122,7 @@ const HomePage = () => {
         <div className="w-screen h-screen bg-[var(--box-color)] flex justify-center">
           <SideBar currentUser={currentUser} />
           <SearchUsers setFriends={setFriends} />
+          {/* <Choice /> */}
 
           {openNoti && (
             <NotificationList
