@@ -161,6 +161,7 @@ const HomePage = () => {
               <ChatBox
                 changeBack={changeBack}
                 currentUser={currentUser}
+                unreadMessagesHandler={addNewUnreadMessage}
                 clickedUser={clickedUser}
               />
             )}

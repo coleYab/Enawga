@@ -84,7 +84,8 @@ const ChatBox = ({
     });
 
     currentSocket.on("newIncomingMessage", (message) => {
-      if (clickedUser?._id == message.receiverId) {
+      if (currentUser?._id == message.receiverId) {
+        console.log(`Clicked user from ChatBox ${clickedUser}`);
         setMessages((prevMessages) => [
           ...prevMessages,
           { ...message, message: message?.message_content, session: false },
