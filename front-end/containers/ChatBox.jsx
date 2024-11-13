@@ -10,7 +10,11 @@ import InputCard from '@components/InputCard';
 
 import { initializeSocket, disconnectSocket } from '../utils/socket.js';
 
-const ChatBox = ({ changeBack, currentUser, clickedUser }) => {
+const ChatBox = ({ 
+    changeBack, currentUser, 
+    unreadMessagesHandler = () => {},
+    clickedUser 
+  }) => {
   const chatContainerRef = useRef(null);
   const [messages, setMessages] = useState([]);
   const [textValue, setTextValue] = useState('');
@@ -57,8 +61,11 @@ const ChatBox = ({ changeBack, currentUser, clickedUser }) => {
         console.log("Failed to send new message");
         return;
       }
+      
+      const sentMessage = await response.json();
 
-      setMessages((messages) => [...messages, { message: theTextValue, session: true }]);
+      console.log(sentMessage);
+      setMessages((prevMessages) => [ ...prevMessages, { ...sentMessage, message: theTextValue, session: true }])
     } catch (error) {
       console.log("Error sending new message: ", error);
     }
@@ -66,10 +73,6 @@ const ChatBox = ({ changeBack, currentUser, clickedUser }) => {
 
   // Hook1: connect the user when the component is fully loaded
   useEffect(() => {
-    if (!socket) {
-      console.log("What the fuck was that?")
-      return;
-    }
     const currentSocket = socket.current;
 
     currentSocket.on('connect', () => {
@@ -79,9 +82,10 @@ const ChatBox = ({ changeBack, currentUser, clickedUser }) => {
     currentSocket.on('newIncomingMessage', (message) => {
       setMessages((prevMessages) => [
         ...prevMessages,
-        { ...message, message:message.message_content, session: false },
+        { ...message, message:message?.message_content, session: false },
       ]);
-      console.log("Reciveing a new message: ", messages);
+      unreadMessagesHandler(message);
+      console.log("Reciveing a new message: ", message);
     });
 
     return () => {
