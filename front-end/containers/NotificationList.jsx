@@ -1,7 +1,9 @@
 import { IoArrowBack } from "react-icons/io5";
 import { MdOutlineSpeakerNotesOff } from "react-icons/md";
 
-const NotificationList = ({ messageList, handleNotification }) => {
+import { formatTime } from "@utils/commonFunctions";
+
+const NotificationList = ({ messageList, handleNotification, handleMessageClick }) => {
   return (
     <div className="z-10 fixed w-screen h-screen flex-center bg-[#12121291]">
       <div className="bg-[var(--box-color-2)] w-[450px] h-[500px] py-4 flex-column rounded-lg gap-7">
@@ -15,20 +17,20 @@ const NotificationList = ({ messageList, handleNotification }) => {
               <div
                 key={index}
                 className="flex-column px-3 mb-3 hover:bg-[var(--box-color)] hover:cursor-pointer"
-                // onClick={} implement later
+                onClick={() => handleMessageClick(message)}
               >
                 <div className="flex-between">
                   <div>
                     <h2 className="text-semibold text-xl">
-                      {message.username}
+                      {message.senderId}
                     </h2>
                     <p className="text-[var(--text-color-muted)]">
-                      {message.message}
+                      {message.message_content}
                     </p>
                   </div>
 
                   <p className="text-extralight text-sm text-[var(--text-color-muted)]">
-                    {message.time}
+                    {formatTime(message.createdAt)}
                   </p>
                 </div>
                 <hr className="w-full" />
