@@ -18,8 +18,18 @@ const HomePage = () => {
   const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(true);
   const [clickedUser, setClickedUser] = useState(null);
+  const [unreadMessageList, setunreadMessageList] = useState([]);
 
   const router = useRouter();
+
+  const addNewUnreadMessage = (message) => {
+    setunreadMessageList((prevUnreadMsg) => [message, ...prevUnreadMsg])
+  }
+
+  // read message
+  const removeUnreadMessage = (message) => {
+    setunreadMessageList((prevUnreadMsg) => prevUnreadMsg.filter((p) => p?._id !== message?._id))
+  }
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -77,6 +87,19 @@ const HomePage = () => {
     fetchFriends();
   }, []);
 
+
+  const handleMessageClick = async(message) => {
+    const toClickUserId = message?.senderId;
+
+    for (const friend of friends) {
+      if (toClickUserId === friend?._id) {
+        setClickedUser(friend);
+      }
+    }
+    removeUnreadMessage(message);
+    handleNotification();
+  }
+
   const changeTheme = () => {
     document.body.classList.toggle('light');
     setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -116,7 +139,8 @@ const HomePage = () => {
 
           {openNoti && (
             <NotificationList
-              messageList={messageList}
+              messageList={unreadMessageList}
+              handleMessageClick={handleMessageClick}
               handleNotification={handleNotification}
             />
           )}
@@ -131,7 +155,8 @@ const HomePage = () => {
               currentUser={currentUser}
             />
             <ChatBox
-              currentUser={currentUser} 
+              currentUser={currentUser}
+              unreadMessagesHandler={addNewUnreadMessage}
               clickedUser={clickedUser}
             />
           </div>
