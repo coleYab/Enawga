@@ -108,9 +108,6 @@ const HomePage = () => {
       ) : !currentUser ? (
         <>
           <Error message="User data not found." handleError={handleError} />
-          <p className="text-black">
-            Try Logging in. <a href="/login">Login</a>
-          </p>
         </>
       ) : (
         <div className="w-screen h-screen bg-[var(--box-color)] flex justify-center">
