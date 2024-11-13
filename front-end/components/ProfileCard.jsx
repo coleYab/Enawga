@@ -1,4 +1,6 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
 
 import { IoIosSunny } from "react-icons/io";
 import { MdNightsStay } from "react-icons/md";
@@ -6,6 +8,7 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { IoArrowBack } from "react-icons/io5";
 
 import { trim } from "@utils/commonFunctions";
+import Choice from "@components/Choice";
 import DefaultProfile from "@public/assets/default-profile-image.jpg";
 
 const ProfileCard = ({
@@ -16,8 +19,30 @@ const ProfileCard = ({
   handleNotification,
   currentUser,
 }) => {
+  const [message, setMessage] = useState("");
+
+  const onYes = async () => {};
+
+  const onNo = () => {
+    document
+      .getElementById("choice-component")
+      .classList.replace("fixed", "hidden");
+  };
+
+  const handleRemoveClicked = () => {
+    setMessage(
+      `Are you sure you want to remove ${user.fullName} from your friend list?`
+    );
+    document
+      .getElementById("choice-component")
+      ?.classList.replace("hidden", "fixed");
+  };
+
   return (
     <div className="flex-between py-4 px-3 bg-[var(--box-color-2)]">
+      {message.length > 0 && (
+        <Choice message={message} onYes={onYes} onNo={onNo} />
+      )}
       <div className="flex items-center gap-3 max-w-[500px]">
         <div className="lg:hidden">
           {!currentUser && (
@@ -88,6 +113,15 @@ const ProfileCard = ({
           </div>
         )}
       </div>
+
+      {!currentUser && (
+        <button
+          onClick={handleRemoveClicked}
+          className="px-4 py-1 mr-5 tracking-wide rounded-sm hover:bg-red-400"
+        >
+          remove friend
+        </button>
+      )}
     </div>
   );
 };
