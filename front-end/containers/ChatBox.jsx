@@ -1,23 +1,24 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { MdSend } from 'react-icons/md';
-import { FaCloud } from 'react-icons/fa6';
+import { useState, useEffect, useRef } from "react";
+import { MdSend } from "react-icons/md";
+import { FaCloud } from "react-icons/fa6";
 
-import ProfileCard from '@components/ProfileCard';
-import ChatBubble from '@components/ChatBubble';
-import InputCard from '@components/InputCard';
+import ProfileCard from "@components/ProfileCard";
+import ChatBubble from "@components/ChatBubble";
+import InputCard from "@components/InputCard";
 
-import { initializeSocket, disconnectSocket } from '../utils/socket.js';
+import { initializeSocket, disconnectSocket } from "../utils/socket.js";
 
-const ChatBox = ({ 
-    changeBack, currentUser, 
-    unreadMessagesHandler = () => {},
-    clickedUser 
-  }) => {
+const ChatBox = ({
+  changeBack,
+  currentUser,
+  unreadMessagesHandler = () => {},
+  clickedUser,
+}) => {
   const chatContainerRef = useRef(null);
   const [messages, setMessages] = useState([]);
-  const [textValue, setTextValue] = useState('');
+  const [textValue, setTextValue] = useState("");
   const socket = useRef(initializeSocket(currentUser?._id));
 
   const handleChange = (e) => {
@@ -26,7 +27,7 @@ const ChatBox = ({
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       sendMessage();
     }
   };
@@ -35,10 +36,10 @@ const ChatBox = ({
     if (!clickedUser) return;
 
     const theTextValue = textValue;
-    setTextValue('');
+    setTextValue("");
 
     // sorry but we are not allowing users to send empty messages
-    if (theTextValue.trim() === '') {
+    if (theTextValue.trim() === "") {
       return;
     }
 
@@ -52,7 +53,7 @@ const ChatBox = ({
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            message_content: theTextValue
+            message_content: theTextValue,
           }),
         }
       );
@@ -61,11 +62,14 @@ const ChatBox = ({
         console.log("Failed to send new message");
         return;
       }
-      
+
       const sentMessage = await response.json();
 
       console.log(sentMessage);
-      setMessages((prevMessages) => [ ...prevMessages, { ...sentMessage, message: theTextValue, session: true }])
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { ...sentMessage, message: theTextValue, session: true },
+      ]);
     } catch (error) {
       console.log("Error sending new message: ", error);
     }
@@ -75,15 +79,17 @@ const ChatBox = ({
   useEffect(() => {
     const currentSocket = socket.current;
 
-    currentSocket.on('connect', () => {
-      console.log('Connected to socket server');
+    currentSocket.on("connect", () => {
+      console.log("Connected to socket server");
     });
-    
-    currentSocket.on('newIncomingMessage', (message) => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { ...message, message:message?.message_content, session: false },
-      ]);
+
+    currentSocket.on("newIncomingMessage", (message) => {
+      if (clickedUser?._id == message.receiverId) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { ...message, message: message?.message_content, session: false },
+        ]);
+      }
       unreadMessagesHandler(message);
       console.log("Reciveing a new message: ", message);
     });
@@ -97,7 +103,7 @@ const ChatBox = ({
   }, []);
 
   // Hook2: load the previous chat histroy whenever the clicked user is changed
-    useEffect(() => {
+  useEffect(() => {
     if (clickedUser) {
       // Helper: load all the coversation from the db
       const fetchConverstaion = async () => {
@@ -108,19 +114,19 @@ const ChatBox = ({
               credentials: "include",
             }
           );
-  
+
           if (!response.ok) {
             console.log("Failed to fetch previous messages:", response.status);
             return;
           }
-  
+
           const previousMessages = await response.json();
-  
+
           previousMessages.forEach((message) => {
-            message.message = message.message_content,
-            message.session = message.receiverId === clickedUser._id;
+            (message.message = message.message_content),
+              (message.session = message.receiverId === clickedUser._id);
           });
-  
+
           setMessages(previousMessages);
         } catch (err) {
           console.log("Error while fetching previous messages:", err);
@@ -130,7 +136,6 @@ const ChatBox = ({
       fetchConverstaion();
     }
   }, [clickedUser]);
-
 
   useEffect(() => {
     if (chatContainerRef.current) {
