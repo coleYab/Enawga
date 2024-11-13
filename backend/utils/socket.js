@@ -6,31 +6,28 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
   },
 });
 
 const usersSocketId = new Map();
 
-io.on("connection", (socket) => {
-  console.log("a user connected", socket.id);
-
+io.on('connection', (socket) => {
   const userId = socket.handshake.query.userId;
   if (userId) usersSocketId.set(userId, socket.id);
 
-  socket.on("sendMessage", data => {
-    socket.broadcast.emit("recieveMessage", data)
-  })
+  socket.on('sendMessage', (data) => {
+    socket.broadcast.emit('recieveMessage', data);
+  });
 
-  socket.on("disconnect", () => {
-    console.log("user disconnected", socket.id);
+  socket.on('disconnect', () => {
     usersSocketId.delete(userId);
   });
 });
 
 const getSocketIdFromUserId = (userId) => {
   return usersSocketId.get(userId);
-}
+};
 
 export { app, server, io, getSocketIdFromUserId };

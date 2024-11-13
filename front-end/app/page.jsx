@@ -1,6 +1,6 @@
-"use client";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+'use client';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function Home() {
           <button
             className="animated-button"
             onClick={() => {
-              router.push("/login");
+              router.push('/login');
             }}
           ></button>
         </div>
@@ -28,7 +28,7 @@ export default function Home() {
       <div className="flex justify-center items-end gap-8">
         <div
           onClick={() => {
-            router.push("https://github.com/DanielJohn17");
+            router.push('https://github.com/DanielJohn17');
           }}
           className="w-[300px] flex items-center gap-5 px-4 py-2 rounded-lg shadow-lg shadow-blue-400 border border-green-300 hover:shadow-none hover:cursor-pointer"
         >
@@ -50,7 +50,7 @@ export default function Home() {
 
         <div
           onClick={() => {
-            router.push("https://github.com/nathanaelcheramlak");
+            router.push('https://github.com/nathanaelcheramlak');
           }}
           className="w-[300px] flex items-center gap-5 px-4 py-2 rounded-lg shadow-lg shadow-purple-400 border border-red-300 hover:shadow-none hover:cursor-pointer"
         >
@@ -72,7 +72,7 @@ export default function Home() {
 
         <div
           onClick={() => {
-            router.push("https://github.com/coleYab");
+            router.push('https://github.com/coleYab');
           }}
           className="w-[300px] flex items-center gap-5 px-4 py-2 rounded-lg shadow-lg shadow-green-400 border border-lime-300 hover:shadow-none hover:cursor-pointer"
         >

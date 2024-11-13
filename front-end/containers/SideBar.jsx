@@ -10,46 +10,7 @@ import { sleep } from '@utils/commonFunctions';
 import DefaultProfile from '@public/assets/default-profile-image.jpg';
 
 const SideBar = ({ currentUser }) => {
-  const [bio, setBio] = useState(currentUser.bio);
-  const [debounceBio, setDebounceBio] = useState('');
   const router = useRouter();
-
-  // useEffect(() => {
-  //   const timerId = setTimeout(() => {
-  //     setDebounceBio(bio);
-  //   }, 300);
-  //   return () => clearTimeout(timerId);
-  // }, [bio]);
-
-  // // Updates user bio on a given interval.
-  // useEffect(() => {
-  //   const updateBio = async () => {
-  //     // if (debounceBio.trim() === '') {
-  //     //   setDebounceBio([]);
-  //     //   return;
-  //     // }
-
-  //     try {
-  //       const response = await fetch('http://localhost:5000/api/users', {
-  //         method: 'PUT',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify({ bio }),
-  //       });
-
-  //       const data = await response.json();
-
-  //       if (response.ok && data) {
-  //         console.log(data);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error updating bio:', error);
-  //     }
-  //   };
-
-  //   updateBio();
-  // }, [debounceBio]);
 
   const handleLogout = async () => {
     try {
