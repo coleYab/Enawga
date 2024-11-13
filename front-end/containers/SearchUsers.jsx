@@ -57,7 +57,7 @@ const SearchUsers = ({ setFriends }) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            message_content: ' ',
+            message_content: 'You have started chatting.',
           }),
         },
       );
