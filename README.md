@@ -68,7 +68,8 @@ npm run server     # Start the backend server
 ```bash
 cd front-end       # Navigate to the frontend directory
 npm install        # Install frontend dependencies
-npm run dev        # Start the frontend development server
+npm run build      # Build the frontend
+npm run start      # Start the frontend server
 ```
 
 The backend server will run on port 5000 by default, and the frontend server should run on the specified port in your configuration.
