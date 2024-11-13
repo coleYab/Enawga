@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
-import { MdSend } from "react-icons/md";
-import { FaCloud } from "react-icons/fa6";
+import { useState, useEffect, useRef } from 'react';
+import { MdSend } from 'react-icons/md';
+import { FaCloud } from 'react-icons/fa6';
 
-import ProfileCard from "@components/ProfileCard";
-import ChatBubble from "@components/ChatBubble";
-import InputCard from "@components/InputCard";
+import ProfileCard from '@components/ProfileCard';
+import ChatBubble from '@components/ChatBubble';
+import InputCard from '@components/InputCard';
 
-import { initializeSocket, disconnectSocket } from "../utils/socket.js";
+import { initializeSocket, disconnectSocket } from '../utils/socket.js';
 
 const ChatBox = ({
   changeBack,
@@ -18,16 +18,15 @@ const ChatBox = ({
 }) => {
   const chatContainerRef = useRef(null);
   const [messages, setMessages] = useState([]);
-  const [textValue, setTextValue] = useState("");
+  const [textValue, setTextValue] = useState('');
   const socket = useRef(initializeSocket(currentUser?._id));
 
   const handleChange = (e) => {
     setTextValue(e.target.value);
-    console.log(textValue);
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       sendMessage();
     }
   };
@@ -36,10 +35,10 @@ const ChatBox = ({
     if (!clickedUser) return;
 
     const theTextValue = textValue;
-    setTextValue("");
+    setTextValue('');
 
     // sorry but we are not allowing users to send empty messages
-    if (theTextValue.trim() === "") {
+    if (theTextValue.trim() === '') {
       return;
     }
 
@@ -47,31 +46,30 @@ const ChatBox = ({
       const response = await fetch(
         `http://localhost:5000/api/messages/send/${clickedUser._id}`,
         {
-          method: "POST",
-          credentials: "include",
+          method: 'POST',
+          credentials: 'include',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             message_content: theTextValue,
           }),
-        }
+        },
       );
 
       if (!response.ok) {
-        console.log("Failed to send new message");
+        console.log('Failed to send new message');
         return;
       }
 
       const sentMessage = await response.json();
 
-      console.log(sentMessage);
       setMessages((prevMessages) => [
         ...prevMessages,
         { ...sentMessage, message: theTextValue, session: true },
       ]);
     } catch (error) {
-      console.log("Error sending new message: ", error);
+      console.log('Error sending new message: ', error);
     }
   };
 
@@ -79,11 +77,11 @@ const ChatBox = ({
   useEffect(() => {
     const currentSocket = socket.current;
 
-    currentSocket.on("connect", () => {
-      console.log("Connected to socket server");
+    currentSocket.on('connect', () => {
+      console.log('Connected to socket server');
     });
 
-    currentSocket.on("newIncomingMessage", (message) => {
+    currentSocket.on('newIncomingMessage', (message) => {
       if (clickedUser?._id == message.receiverId) {
         setMessages((prevMessages) => [
           ...prevMessages,
@@ -91,7 +89,6 @@ const ChatBox = ({
         ]);
       }
       unreadMessagesHandler(message);
-      console.log("Reciveing a new message: ", message);
     });
 
     return () => {
@@ -111,12 +108,12 @@ const ChatBox = ({
           const response = await fetch(
             `http://localhost:5000/api/messages/user/${clickedUser._id}`,
             {
-              credentials: "include",
-            }
+              credentials: 'include',
+            },
           );
 
           if (!response.ok) {
-            console.log("Failed to fetch previous messages:", response.status);
+            console.log('Failed to fetch previous messages:', response.status);
             return;
           }
 
@@ -129,7 +126,7 @@ const ChatBox = ({
 
           setMessages(previousMessages);
         } catch (err) {
-          console.log("Error while fetching previous messages:", err);
+          console.log('Error while fetching previous messages:', err);
         }
       };
 

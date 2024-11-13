@@ -42,7 +42,6 @@ const Login = () => {
 
       router.push('/home');
     } catch (error) {
-      console;
       setError(error.message);
     } finally {
       setLoading(false);

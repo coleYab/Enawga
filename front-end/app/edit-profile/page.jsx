@@ -35,8 +35,6 @@ const EditProfile = () => {
         if (response.status === 200) {
           const data = response.data;
           setInfo(data.user);
-        } else {
-          console.log('No user data found');
         }
       } catch (error) {
         console.log('Error fetching user data:', error);
@@ -58,7 +56,6 @@ const EditProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(info);
     setIsLoading(true);
 
     try {
@@ -73,8 +70,6 @@ const EditProfile = () => {
         }),
         credentials: 'include',
       });
-
-      console.log(response.status); // Log status code for debugging
       if (!response.ok) {
         const errorText = await response.text(); // Capture error message
         console.error('Error:', errorText);
@@ -82,7 +77,6 @@ const EditProfile = () => {
       }
 
       const data = await response.json();
-      console.log('Edit Profile successful:', data);
       router.push('/home');
     } catch (error) {
       console.error('Error during submit:', error.message);
