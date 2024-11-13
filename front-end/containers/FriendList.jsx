@@ -13,6 +13,7 @@ const FriendList = ({
   changeTheme,
   handleNotification,
   currentUser,
+  changeBack,
 }) => {
   return (
     <div className="left-side">
@@ -42,7 +43,15 @@ const FriendList = ({
       <div className="h-full overflow-y-auto">
         {friends.length > 0 ? (
           friends.map((friend, index) => (
-            <div key={index} onClick={() => handleClickedUser(friend)}>
+            <div
+              key={index}
+              onClick={() => {
+                handleClickedUser(friend);
+                if (changeBack) {
+                  changeBack();
+                }
+              }}
+            >
               <FriendCard user={friend} />
               <hr />
             </div>
