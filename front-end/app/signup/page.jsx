@@ -68,7 +68,7 @@ const Signup = () => {
       }
       setIsLoading(false);
     } catch (error) {
-      console.error(error);
+      console.error("Error while signup: ", error);
     }
   };
 

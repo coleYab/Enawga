@@ -37,7 +37,7 @@ const EditProfile = () => {
           setInfo(data.user);
         }
       } catch (error) {
-        console.log('Error fetching user data:', error);
+        console.error('Error fetching user data:', error);
       } finally {
         setPageLoading(false);
       }

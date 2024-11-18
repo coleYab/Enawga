@@ -55,7 +55,7 @@ const HomePage = () => {
       } catch (error) {
         setCurrentUser(null);
         setLoading(false);
-        console.log(error);
+        console.error("Error while verifying token: ", error);
       }
     };
 

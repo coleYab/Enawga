@@ -25,7 +25,7 @@ export const fetchFriends = async (setFriends) => {
     });
 
     if (!response.ok) {
-      console.log('Failed to fetch friends');
+      console.error('Failed to fetch friends');
       return;
     }
 
@@ -35,6 +35,6 @@ export const fetchFriends = async (setFriends) => {
       setFriends(data);
     }
   } catch (error) {
-    console.log('Error fetching friends: ', error);
+    console.error('Error fetching friends: ', error);
   }
 };
