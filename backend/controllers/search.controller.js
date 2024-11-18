@@ -20,7 +20,7 @@ export const getUserByUsername = async (req, res) => {
 
     return res.status(200).json(users);
   } catch (error) {
-    console.log('Error in getUserByUsername controller: ', error.message);
+    console.error('Error in getUserByUsername controller: ', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -48,7 +48,7 @@ export const getMessageByKeyword = async (req, res) => {
 
     res.status(200).json(matchingMessages);
   } catch (error) {
-    console.log('Error in getMessageByKeyword controller: ', error.message);
+    console.error('Error in getMessageByKeyword controller: ', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };

@@ -26,7 +26,7 @@ export const getUsers = async (req, res) => {
 
     res.status(200).json(friends);
   } catch (error) {
-    console.log('Error in getUsers controller: ', error.message);
+    console.error('Error in getUsers controller: ', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -42,7 +42,7 @@ export const getUserById = async (req, res) => {
     }
     res.status(200).json(user);
   } catch (error) {
-    console.log('Error in getUserById controller: ', error.message);
+    console.error('Error in getUserById controller: ', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -70,7 +70,7 @@ export const deleteUser = async (req, res) => {
     // Send success response
     res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
-    console.log('Error in deleteUser controller: ', error.message);
+    console.error('Error in deleteUser controller: ', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -119,7 +119,7 @@ export const updateUser = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log('Error in updateUser controller: ', error.message);
+    console.error('Error in updateUser controller: ', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -167,7 +167,7 @@ export const getUsersWithRecentMessages = async (req, res) => {
 
     res.status(200).json(usersWithRecentMessages);
   } catch (error) {
-    console.log(
+    console.error(
       'Error in getUsersWithRecentMessages controller: ',
       error.message,
     );

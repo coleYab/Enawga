@@ -37,7 +37,7 @@ export const sendMessage = async (req, res) => {
 
     res.status(201).json(newMessage);
   } catch (error) {
-    console.log('Error in sendMessage controller: ', error.message);
+    console.error('Error in sendMessage controller: ', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -89,7 +89,7 @@ export const getMessages = async (req, res) => {
     }
     res.status(200).json(conversation.messages);
   } catch (error) {
-    console.log('Error in getMessages controller: ', error.message);
+    console.error('Error in getMessages controller: ', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -104,7 +104,7 @@ export const getMessage = async (req, res) => {
     }
     return res.status(200).json(message);
   } catch (error) {
-    console.log('Error in getMessage controller: ', error.message);
+    console.error('Error in getMessage controller: ', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -123,7 +123,7 @@ export const deleteMessage = async (req, res) => {
     // Send success response
     res.status(200).json({ message: 'Message deleted successfully' });
   } catch (error) {
-    console.log('Error in deleteMessage controller: ', error.message);
+    console.error('Error in deleteMessage controller: ', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -159,7 +159,7 @@ export const updateMessage = async (req, res) => {
       .status(200)
       .json({ message: 'Message updated successfully', updatedMessage });
   } catch (error) {
-    console.log('Error in updateMessage controller: ', error.message);
+    console.error('Error in updateMessage controller: ', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
